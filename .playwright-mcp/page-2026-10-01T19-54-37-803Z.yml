@@ -1,0 +1,229 @@
+- generic [active] [ref=f3e1]:
+  - heading "Presidencia de la Nación" [level=1] [ref=f3e2]
+  - link "Pasar al contenido principal" [ref=f3e3] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=f3e4]:
+    - navigation [ref=f3e5]:
+      - generic [ref=f3e6]:
+        - generic:
+          - generic [ref=f3e7]:
+            - link "Argentina.gob.ar Presidencia de la Nación" [ref=f3e8] [cursor=pointer]:
+              - /url: /
+              - img "Argentina.gob.ar" [ref=f3e9]
+            - text:  
+          - generic [ref=f3e10]:
+            - text: 
+            - link "Ingresar a Mi Argentina" [ref=f3e12] [cursor=pointer]:
+              - /url: https://mi.argentina.gob.ar/
+              - generic [ref=f3e13]:
+                - text: 
+                - generic [ref=f3e14]: Mi Argentina
+            - search [ref=f3e16]:
+              - generic [ref=f3e18]:
+                - generic [ref=f3e19]: Buscar en el sitio
+                - textbox "Buscá en el sitio" [ref=f3e20]
+                - button "Buscar" [ref=f3e22] [cursor=pointer]:
+                  - generic [ref=f3e23]: 
+                  - generic [ref=f3e24]: Buscar en el sitio
+  - main [ref=f3e25]:
+    - generic [ref=f3e28]:
+      - text: 
+      - generic [ref=f3e30]:
+        - generic [ref=f3e31]:
+          - heading "33 resultados para \"ibuprofeno\"" [level=3] [ref=f3e32]
+          - list [ref=f3e33]:
+            - listitem [ref=f3e34]:
+              - link [ref=f3e35] [cursor=pointer]:
+                - /url: https://www.argentina.gob.ar/noticias/anmat-informa-sobre-ibuprofeno
+                - heading [level=2] [ref=f3e37]:
+                  - text: ANMAT informa sobre ibuprofeno
+                  - generic [ref=f3e38]:
+                    - text: activo (IFA) denominado
+                    - strong [ref=f3e39]: Ibuprofeno
+                    - text: ", que según consta en sus registros, el Departamento ..."
+            - listitem [ref=f3e40]:
+              - link [ref=f3e41] [cursor=pointer]:
+                - /url: https://www.argentina.gob.ar/noticias/sobre-luarprofeno-ibuprofeno-nebulizable
+                - 'heading "Sobre LUARPROFENO: ibuprofeno nebulizable La ANMAT aclara a la población en general la situación vigente acerca del ibuprofeno nebulizable. ..." [level=2] [ref=f3e43]'
+            - listitem [ref=f3e44]:
+              - link [ref=f3e45] [cursor=pointer]:
+                - /url: https://www.argentina.gob.ar/noticias/presentacion-del-estudio-clinico-para-el-luarprofeno
+                - heading "Presentación del estudio clínico para el “Luarprofeno” Se recibió la presentación formal. ..." [level=2] [ref=f3e47]
+            - listitem [ref=f3e48]:
+              - link [ref=f3e49] [cursor=pointer]:
+                - /url: https://www.argentina.gob.ar/noticias/anmat-reitera-sobre-luarprofeno
+                - heading "ANMAT reitera sobre LUARPROFENO La ANMAT reitera a la población en general la situación vigente acerca del ibuprofeno nebulizable. ..." [level=2] [ref=f3e51]
+            - listitem [ref=f3e52]:
+              - link [ref=f3e53] [cursor=pointer]:
+                - /url: https://www.argentina.gob.ar/noticias/retiro-del-mercado-de-un-lote-de-ibupirac
+                - heading [level=2] [ref=f3e55]:
+                  - text: Retiro del mercado de un lote de Ibupirac
+                  - generic [ref=f3e56]:
+                    - text: del mercado de un lote de la especialidad medicinal "Ibupirac/
+                    - strong [ref=f3e57]: Ibuprofeno
+                    - text: 4 g/100 ml – Suspensión – Envase ...
+            - listitem [ref=f3e58]:
+              - link [ref=f3e59] [cursor=pointer]:
+                - /url: https://www.argentina.gob.ar/noticias/formosa-gendarmes-inspeccionan-una-camioneta-y-secuestran-medicamentos-que-eran-trasladados
+                - 'heading "Formosa: Gendarmes inspeccionan una camioneta y secuestran medicamentos que eran trasladados sin aval legal Se trata de 4.440 cajas de Ibuprofeno y de 160 cajas de Dipirona, de los cuales su conductor no contaba con la documentación correspondiente. ..." [level=2] [ref=f3e61]'
+            - listitem [ref=f3e62]:
+              - link [ref=f3e63] [cursor=pointer]:
+                - /url: https://www.argentina.gob.ar/noticias/rossi-recorrio-las-obras-de-modernizacion-del-laboratorio-farmaceutico-conjunto-que-amplian
+                - heading "Rossi recorrió las obras de modernización del Laboratorio Farmacéutico Conjunto que amplían las capacidades de producción El ministro de Defensa, Agustín Rossi, recorrió hoy el Laboratorio Farmacéutico Conjunto, dependiente de la Dirección de Sanidad Conjunta, Allí pudo supervisar las obras de modernización de la Sección Líquidos de la Planta Caseros, que mediante la adquisición de un nuevo reactor incrementó cinco veces la producción de un repelente para mosquitos y alcohol en gel. ..." [level=2] [ref=f3e65]
+            - listitem [ref=f3e66]:
+              - link [ref=f3e67] [cursor=pointer]:
+                - /url: https://www.argentina.gob.ar/noticias/salud-envio-insumos-y-equipamiento-para-atender-las-personas-afectadas-por-las-inundaciones
+                - heading "Salud envió insumos y equipamiento para atender a las personas afectadas por las inundaciones en Salta Se reforzó el envío de medicamentos y recursos humanos. Las autoridades están en contacto permanente con sus pares salteños para monitorear la evolución de la situación epidemiológica y las necesidades sanitarias de las zonas afectadas. ..." [level=2] [ref=f3e69]
+            - listitem [ref=f3e70]:
+              - link [ref=f3e71] [cursor=pointer]:
+                - /url: https://www.argentina.gob.ar/desarrollosocial/denguezikaychikungunya
+                - heading [level=2] [ref=f3e73]:
+                  - text: Dengue, zika y chikungunya
+                  - generic [ref=f3e74]:
+                    - text: o
+                    - strong [ref=f3e75]: ibuprofeno
+                    - text: y no te apliques inyecciones intramusculares Consultá a un médico lo antes posible para que te ...
+            - listitem [ref=f3e76]:
+              - link [ref=f3e77] [cursor=pointer]:
+                - /url: https://www.argentina.gob.ar/noticias/salud-enviara-refuerzo-estrategico-de-vacunas-contra-covid-19-las-localidades-de-la-comarca
+                - heading "Salud enviará refuerzo estratégico de vacunas contra COVID-19 a las localidades de la Comarca Andina afectadas por los incendios Complementa el cargamento enviado ayer en un avión Hércules con medicamentos, insumos médicos y equipos de protección personal para atender las necesidades de los pobladores y del personal que trabaja en la zona afectada. ..." [level=2] [ref=f3e79]
+            - listitem [ref=f3e80]:
+              - link [ref=f3e81] [cursor=pointer]:
+                - /url: https://www.argentina.gob.ar/salud/mosquitos/chikungunya
+                - heading "¿Qué es la fiebre chikungunya? Qué es, cuáles son los síntomas y como se previene la fiebre chikungunya ..." [level=2] [ref=f3e83]
+            - listitem [ref=f3e84]:
+              - link [ref=f3e85] [cursor=pointer]:
+                - /url: https://www.argentina.gob.ar/salud/mosquitos/queeszika
+                - heading "¿Qué es el zika? Qué es, como prevenirse y cuáles son los síntomas del zika. ..." [level=2] [ref=f3e87]
+            - listitem [ref=f3e88]:
+              - link [ref=f3e89] [cursor=pointer]:
+                - /url: https://www.argentina.gob.ar/anmat/covid-19-acciones-regulatorias-de-anmat
+                - heading [level=2] [ref=f3e91]:
+                  - text: "Covid-19: Acciones regulatorias de ANMAT"
+                  - generic [ref=f3e92]:
+                    - text: para el Luarprofeno (
+                    - strong [ref=f3e93]: Ibuprofeno
+                    - text: en solución inhalatoria y nebulizable) Estudios clínicos autorizados- COVID-19 Guía ...
+            - listitem [ref=f3e94]:
+              - link [ref=f3e95] [cursor=pointer]:
+                - /url: https://www.argentina.gob.ar/noticias/maximas-autoridades-de-salud-volvieron-reunirse-para-evaluar-la-situacion-sanitaria
+                - heading "Máximas autoridades de Salud volvieron a reunirse para evaluar la situación sanitaria nacional En una nueva reunión del Consejo Federal de Salud (COFESA), Ginés González García señaló a sus pares provinciales la importancia de la carga de los datos del programa DETECTAR Federal. Además, compartió la experiencia de las provincias acerca de la implementación de los nuevos test de antígenos. ..." [level=2] [ref=f3e97]
+            - listitem [ref=f3e98]:
+              - link [ref=f3e99] [cursor=pointer]:
+                - /url: https://www.argentina.gob.ar/noticias/la-sanidad-del-ejercito-en-apoyo-de-la-salud-publica
+                - heading "La Sanidad del Ejército en apoyo de la Salud Pública Desde el inicio de la pandemia, el Ejército Argentino presta apoyo a la población a través de la ejecución de la Operación General Manuel Belgrano. Hoy uno de los principales apoyos que realiza es el despliegue de los Hospitales Militares Móviles, de Campaña y Modulares, para ampliar las prestaciones sanitarias de los hospitales públicos. ..." [level=2] [ref=f3e101]
+          - list [ref=f3e103]:
+            - listitem:
+              - generic [ref=f3e104]: "1"
+            - listitem:
+              - link "2" [ref=f3e105] [cursor=pointer]:
+                - /url: /buscar/ibuprofeno?page=1
+            - listitem:
+              - link "3" [ref=f3e106] [cursor=pointer]:
+                - /url: /buscar/ibuprofeno?page=2
+            - listitem:
+              - link ">" [ref=f3e107] [cursor=pointer]:
+                - /url: /buscar/ibuprofeno?page=1
+            - listitem:
+              - link ">>" [ref=f3e108] [cursor=pointer]:
+                - /url: /buscar/ibuprofeno?page=2
+        - complementary [ref=f3e109]:
+          - navigation [ref=f3e112]:
+            - heading "Navegación" [level=2] [ref=f3e113]
+            - list [ref=f3e114]:
+              - listitem [ref=f3e115]:
+                - link "Todos los resultados" [ref=f3e116] [cursor=pointer]:
+                  - /url: https://www.argentina.gob.ar/buscar/ibuprofeno
+              - listitem [ref=f3e117]:
+                - link "Noticia 20 Apply Noticia filter" [ref=f3e118] [cursor=pointer]:
+                  - /url: /buscar/ibuprofeno?f%5B0%5D=bundle%3Anoticia
+                  - text: Noticia
+                  - generic [ref=f3e119]: "20"
+                  - generic [ref=f3e120]: Apply Noticia filter
+              - listitem [ref=f3e121]:
+                - link "Página 10 Apply Página filter" [ref=f3e122] [cursor=pointer]:
+                  - /url: /buscar/ibuprofeno?f%5B0%5D=bundle%3Apage
+                  - text: Página
+                  - generic [ref=f3e123]: "10"
+                  - generic [ref=f3e124]: Apply Página filter
+              - listitem [ref=f3e125]:
+                - link "Página de libro 3 Apply Página de libro filter" [ref=f3e126] [cursor=pointer]:
+                  - /url: /buscar/ibuprofeno?f%5B0%5D=bundle%3Abook
+                  - text: Página de libro
+                  - generic [ref=f3e127]: "3"
+                  - generic [ref=f3e128]: Apply Página de libro filter
+            - heading "Áreas" [level=3] [ref=f3e129]
+            - list [ref=f3e130]:
+              - listitem [ref=f3e131]:
+                - link "Ministerio de Salud 7 Apply Ministerio de Salud filter" [ref=f3e132] [cursor=pointer]:
+                  - /url: /buscar/ibuprofeno?f%5B0%5D=sm_og_group_ref%3Anode%3A9063
+                  - text: Ministerio de Salud
+                  - generic [ref=f3e133]: "7"
+                  - generic [ref=f3e134]: Apply Ministerio de Salud filter
+              - listitem [ref=f3e135]:
+                - link "ANMAT 6 Apply ANMAT filter" [ref=f3e136] [cursor=pointer]:
+                  - /url: /buscar/ibuprofeno?f%5B0%5D=sm_og_group_ref%3Anode%3A28874
+                  - text: ANMAT
+                  - generic [ref=f3e137]: "6"
+                  - generic [ref=f3e138]: Apply ANMAT filter
+              - listitem [ref=f3e139]:
+                - link "Dengue 3 Apply Dengue filter" [ref=f3e140] [cursor=pointer]:
+                  - /url: /buscar/ibuprofeno?f%5B0%5D=sm_og_group_ref%3Anode%3A436543
+                  - text: Dengue
+                  - generic [ref=f3e141]: "3"
+                  - generic [ref=f3e142]: Apply Dengue filter
+              - listitem [ref=f3e143]:
+                - link "Enfermedades transmitidas por mosquitos 3 Apply Enfermedades transmitidas por mosquitos filter" [ref=f3e144] [cursor=pointer]:
+                  - /url: /buscar/ibuprofeno?f%5B0%5D=sm_og_group_ref%3Anode%3A30307
+                  - text: Enfermedades transmitidas por mosquitos
+                  - generic [ref=f3e145]: "3"
+                  - generic [ref=f3e146]: Apply Enfermedades transmitidas por mosquitos filter
+              - listitem [ref=f3e147]:
+                - link "Profesionales y empresas 3 Apply Profesionales y empresas filter" [ref=f3e148] [cursor=pointer]:
+                  - /url: /buscar/ibuprofeno?f%5B0%5D=sm_og_group_ref%3Anode%3A81070
+                  - text: Profesionales y empresas
+                  - generic [ref=f3e149]: "3"
+                  - generic [ref=f3e150]: Apply Profesionales y empresas filter
+            - link "Mostrar más" [ref=f3e151] [cursor=pointer]:
+              - /url: "#"
+  - contentinfo [ref=f3e152]:
+    - generic [ref=f3e154]:
+      - generic [ref=f3e157]:
+        - heading "Trámites" [level=2] [ref=f3e158]
+        - list [ref=f3e159]:
+          - listitem [ref=f3e160]:
+            - link "Turnos" [ref=f3e161] [cursor=pointer]:
+              - /url: /turnos
+          - listitem [ref=f3e162]:
+            - link "Trámites a distancia" [ref=f3e163] [cursor=pointer]:
+              - /url: /tad
+          - listitem [ref=f3e164]:
+            - link "Atención a la ciudadanía" [ref=f3e165] [cursor=pointer]:
+              - /url: /miargentina/mesadeayuda
+      - generic [ref=f3e168]:
+        - heading "Acerca de la República Argentina" [level=2] [ref=f3e169]
+        - list [ref=f3e170]:
+          - listitem [ref=f3e171]:
+            - link "Nuestro país" [ref=f3e172] [cursor=pointer]:
+              - /url: /pais
+          - listitem [ref=f3e173]:
+            - link "Leyes argentinas" [ref=f3e174] [cursor=pointer]:
+              - /url: /normativa
+          - listitem [ref=f3e175]:
+            - link "Organismos" [ref=f3e176] [cursor=pointer]:
+              - /url: /organismos
+          - listitem [ref=f3e177]:
+            - link "Mapa del Estado" [ref=f3e178] [cursor=pointer]:
+              - /url: /desregulacion/mapa-del-estado
+      - generic [ref=f3e181]:
+        - heading "Acerca de Argentina.gob.ar" [level=2] [ref=f3e182]
+        - list [ref=f3e183]:
+          - listitem [ref=f3e184]:
+            - link "Acerca de este sitio" [ref=f3e185] [cursor=pointer]:
+              - /url: /acerca
+          - listitem [ref=f3e186]:
+            - link "Términos y condiciones" [ref=f3e187] [cursor=pointer]:
+              - /url: /terminos-y-condiciones
+          - listitem [ref=f3e188]:
+            - link "Sugerencias" [ref=f3e189] [cursor=pointer]:
+              - /url: /sugerencias

@@ -1,0 +1,117 @@
+- generic [active] [ref=e1]:
+  - heading "Presidencia de la Nación" [level=1] [ref=e2]
+  - link "Pasar al contenido principal" [ref=e3] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e4]:
+    - navigation [ref=e5]:
+      - generic [ref=e6]:
+        - generic:
+          - generic [ref=e7]:
+            - link "Argentina.gob.ar Presidencia de la Nación" [ref=e8] [cursor=pointer]:
+              - /url: /
+              - img "Argentina.gob.ar" [ref=e9]
+            - text:  
+          - generic [ref=e10]:
+            - text: 
+            - link "Ingresar a Mi Argentina" [ref=e12] [cursor=pointer]:
+              - /url: https://mi.argentina.gob.ar/
+              - generic [ref=e13]:
+                - text: 
+                - generic [ref=e14]: Mi Argentina
+            - search [ref=e16]:
+              - generic [ref=e18]:
+                - generic [ref=e19]: Buscar en el sitio
+                - textbox "Buscá en el sitio" [ref=e20]
+                - button "Buscar" [ref=e22] [cursor=pointer]:
+                  - generic [ref=e23]: 
+                  - generic [ref=e24]: Buscar en el sitio
+  - main [ref=e25]:
+    - generic [ref=e27]:
+      - generic [ref=e29]:
+        - list "Migas de pan" [ref=e35]:
+          - listitem [ref=e36]:
+            - link "Inicio" [ref=e37] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=e38]:
+            - link "Ministerio de Salud" [ref=e39] [cursor=pointer]:
+              - /url: /salud
+            - text: /
+          - listitem [ref=e40]: Precios de medicamentos /
+        - generic [ref=e45]:
+          - heading "Precios de medicamentos" [level=1] [ref=e46]
+          - paragraph [ref=e47]: Elegí libremente el medicamento que más te conviene.
+      - article [ref=e49]:
+        - generic [ref=e54]:
+          - generic [ref=e55]:
+            - generic [ref=e56]: "Nombre, prescripción, principio activo, troquel o laboratorio:"
+            - textbox "Nombre, prescripción, principio activo, troquel o laboratorio:" [ref=e57]:
+              - /placeholder: "Ej: Ibuprofeno"
+          - button "Consultar" [ref=e59] [cursor=pointer]
+      - paragraph [ref=e66]:
+        - text: "Última actualización:"
+        - strong [ref=e67]: 29/01/2025
+      - generic [ref=e72]:
+        - paragraph [ref=e73]: Compartir en redes sociales
+        - list [ref=e75]:
+          - listitem [ref=e76]:
+            - link "Compartir en Facebook" [ref=e77] [cursor=pointer]:
+              - /url: https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.argentina.gob.ar%2Fprecios-de-medicamentos&amp;title=Precios+de+medicamentos
+              - generic [aria-hidden] [ref=e79]: 
+          - listitem [ref=e80]:
+            - link "Compartir en Twitter" [ref=e81] [cursor=pointer]:
+              - /url: https://twitter.com/share?url=https://www.argentina.gob.ar/precios-de-medicamentos&text=Precios de medicamentos
+              - generic [aria-hidden] [ref=e83]: 
+          - listitem [ref=e84]:
+            - link "Compartir en Linkedin" [ref=e85] [cursor=pointer]:
+              - /url: https://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Fwww.argentina.gob.ar%2Fprecios-de-medicamentos
+              - generic [aria-hidden] [ref=e87]: 
+          - listitem [ref=e88]:
+            - link "Compartir en Whatsapp" [ref=e89] [cursor=pointer]:
+              - /url: https://web.whatsapp.com/send?text=https%3A%2F%2Fwww.argentina.gob.ar%2Fprecios-de-medicamentos
+              - generic [aria-hidden] [ref=e91]: 
+          - listitem [ref=e92]:
+            - link "Compartir en Telegram" [ref=e93] [cursor=pointer]:
+              - /url: https://t.me/share/url?url=https%3A%2F%2Fwww.argentina.gob.ar%2Fprecios-de-medicamentos
+              - generic [aria-hidden] [ref=e95]: 
+  - contentinfo [ref=e96]:
+    - generic [ref=e98]:
+      - generic [ref=e101]:
+        - heading "Trámites" [level=2] [ref=e102]
+        - list [ref=e103]:
+          - listitem [ref=e104]:
+            - link "Turnos" [ref=e105] [cursor=pointer]:
+              - /url: /turnos
+          - listitem [ref=e106]:
+            - link "Trámites a distancia" [ref=e107] [cursor=pointer]:
+              - /url: /tad
+          - listitem [ref=e108]:
+            - link "Atención a la ciudadanía" [ref=e109] [cursor=pointer]:
+              - /url: /miargentina/mesadeayuda
+      - generic [ref=e112]:
+        - heading "Acerca de la República Argentina" [level=2] [ref=e113]
+        - list [ref=e114]:
+          - listitem [ref=e115]:
+            - link "Nuestro país" [ref=e116] [cursor=pointer]:
+              - /url: /pais
+          - listitem [ref=e117]:
+            - link "Leyes argentinas" [ref=e118] [cursor=pointer]:
+              - /url: /normativa
+          - listitem [ref=e119]:
+            - link "Organismos" [ref=e120] [cursor=pointer]:
+              - /url: /organismos
+          - listitem [ref=e121]:
+            - link "Mapa del Estado" [ref=e122] [cursor=pointer]:
+              - /url: /desregulacion/mapa-del-estado
+      - generic [ref=e125]:
+        - heading "Acerca de Argentina.gob.ar" [level=2] [ref=e126]
+        - list [ref=e127]:
+          - listitem [ref=e128]:
+            - link "Acerca de este sitio" [ref=e129] [cursor=pointer]:
+              - /url: /acerca
+          - listitem [ref=e130]:
+            - link "Términos y condiciones" [ref=e131] [cursor=pointer]:
+              - /url: /terminos-y-condiciones
+          - listitem [ref=e132]:
+            - link "Sugerencias" [ref=e133] [cursor=pointer]:
+              - /url: /sugerencias
+  - text: 

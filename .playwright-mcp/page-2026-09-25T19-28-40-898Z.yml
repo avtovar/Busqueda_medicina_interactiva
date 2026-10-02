@@ -1,0 +1,168 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - link "FarmaciaCerca, inicio" [ref=e6] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e10]:
+          - generic [ref=e11]: FarmaciaCerca
+          - generic [ref=e12]: Precios que te acercan
+      - button "Usar mi ubicación" [ref=e13]
+  - main [ref=e18]:
+    - generic [ref=e20]:
+      - generic [ref=e21]:
+        - generic [ref=e22]: Comparador de medicamentos
+        - heading "Encuentra el precio justo, cerca de ti." [level=1] [ref=e24]
+        - paragraph [ref=e25]: Busca por nombre comercial o componente activo, compara farmacias y decide con información clara.
+        - generic [ref=e26]:
+          - generic [ref=e27]: Búsqueda dual
+          - generic [ref=e28]: Precios de muestra
+          - generic [ref=e29]: Rutas directas
+      - generic [ref=e30]:
+        - generic [ref=e31]:
+          - generic [ref=e32]:
+            - paragraph [ref=e33]: Busca tu medicamento
+            - paragraph [ref=e34]: Encuentra precios de demostración en tus farmacias cercanas.
+          - generic [ref=e35]: 7 resultados
+        - generic [ref=e36]:
+          - generic [ref=e37]: Buscar medicamento
+          - searchbox "Buscar medicamento" [ref=e39]
+          - generic [ref=e40]: Tipo de búsqueda
+          - combobox "Tipo de búsqueda" [ref=e41]:
+            - option "Nombre comercial" [selected]
+            - option "Componente activo"
+          - button "Limpiar" [disabled] [ref=e42]
+    - generic [ref=e45]:
+      - status [ref=e46]:
+        - generic [ref=e52]:
+          - paragraph [ref=e53]: Ubicación desactivada
+          - paragraph [ref=e54]: Activa tu ubicación para calcular qué tan lejos está cada farmacia.
+      - region [ref=e55]:
+        - generic [ref=e56]:
+          - generic [ref=e57]:
+            - paragraph [ref=e58]: Resultados
+            - heading "7 medicamentos disponibles" [level=2] [ref=e59]
+          - generic [ref=e60]:
+            - generic [ref=e61]: Ordenar resultados
+            - combobox "Ordenar resultados" [ref=e62]:
+              - option "Menor a mayor precio" [selected]
+              - option "Mayor a menor precio"
+              - option "Farmacia más cercana primero" [disabled]
+              - option "Farmacia más lejana primero" [disabled]
+            - paragraph [ref=e63]: Activa tu ubicación para ordenar por distancia.
+        - list "Resultados de medicamentos" [ref=e64]:
+          - listitem [ref=e65]:
+            - article [ref=e66]:
+              - generic [ref=e67]:
+                - generic [ref=e68]:
+                  - paragraph [ref=e69]: Farmacia Norte
+                  - heading "Paracetamol 1 g" [level=3] [ref=e70]
+                - generic [ref=e71]:
+                  - paragraph [ref=e72]: Precio
+                  - paragraph [ref=e73]: 4,80 €
+              - generic [ref=e74]:
+                - generic [ref=e79]:
+                  - text: "Componente:"
+                  - strong [ref=e80]: Paracetamol
+                - generic [ref=e81]: Activa tu ubicación para ver la distancia
+              - link "Ver ruta" [ref=e87] [cursor=pointer]:
+                - /url: https://www.google.com/maps/dir/?api=1&destination=40.4244,-3.6951
+          - listitem [ref=e90]:
+            - article [ref=e91]:
+              - generic [ref=e92]:
+                - generic [ref=e93]:
+                  - paragraph [ref=e94]: Farmacia Centro
+                  - heading "Paracetamol 1 g" [level=3] [ref=e95]
+                - generic [ref=e96]:
+                  - paragraph [ref=e97]: Precio
+                  - paragraph [ref=e98]: 5,20 €
+              - generic [ref=e99]:
+                - generic [ref=e104]:
+                  - text: "Componente:"
+                  - strong [ref=e105]: Paracetamol
+                - generic [ref=e106]: Activa tu ubicación para ver la distancia
+              - link "Ver ruta" [ref=e112] [cursor=pointer]:
+                - /url: https://www.google.com/maps/dir/?api=1&destination=40.4168,-3.7038
+          - listitem [ref=e115]:
+            - article [ref=e116]:
+              - generic [ref=e117]:
+                - generic [ref=e118]:
+                  - paragraph [ref=e119]: Farmacia Sur
+                  - heading "Ibuprofeno 400 mg" [level=3] [ref=e120]
+                - generic [ref=e121]:
+                  - paragraph [ref=e122]: Precio
+                  - paragraph [ref=e123]: 6,70 €
+              - generic [ref=e124]:
+                - generic [ref=e129]:
+                  - text: "Componente:"
+                  - strong [ref=e130]: Ibuprofeno
+                - generic [ref=e131]: Activa tu ubicación para ver la distancia
+              - link "Ver ruta" [ref=e137] [cursor=pointer]:
+                - /url: https://www.google.com/maps/dir/?api=1&destination=40.4011,-3.7122
+          - listitem [ref=e140]:
+            - article [ref=e141]:
+              - generic [ref=e142]:
+                - generic [ref=e143]:
+                  - paragraph [ref=e144]: Farmacia Norte
+                  - heading "Aspirina 500 mg" [level=3] [ref=e145]
+                - generic [ref=e146]:
+                  - paragraph [ref=e147]: Precio
+                  - paragraph [ref=e148]: 7,90 €
+              - generic [ref=e149]:
+                - generic [ref=e154]:
+                  - text: "Componente:"
+                  - strong [ref=e155]: Ácido acetilsalicílico
+                - generic [ref=e156]: Activa tu ubicación para ver la distancia
+              - link "Ver ruta" [ref=e162] [cursor=pointer]:
+                - /url: https://www.google.com/maps/dir/?api=1&destination=40.4244,-3.6951
+          - listitem [ref=e165]:
+            - article [ref=e166]:
+              - generic [ref=e167]:
+                - generic [ref=e168]:
+                  - paragraph [ref=e169]: Farmacia Centro
+                  - heading "Aspirina 500 mg" [level=3] [ref=e170]
+                - generic [ref=e171]:
+                  - paragraph [ref=e172]: Precio
+                  - paragraph [ref=e173]: 8,50 €
+              - generic [ref=e174]:
+                - generic [ref=e179]:
+                  - text: "Componente:"
+                  - strong [ref=e180]: Ácido acetilsalicílico
+                - generic [ref=e181]: Activa tu ubicación para ver la distancia
+              - link "Ver ruta" [ref=e187] [cursor=pointer]:
+                - /url: https://www.google.com/maps/dir/?api=1&destination=40.4168,-3.7038
+          - listitem [ref=e190]:
+            - article [ref=e191]:
+              - generic [ref=e192]:
+                - generic [ref=e193]:
+                  - paragraph [ref=e194]: Farmacia Oeste
+                  - heading "Loratadina 10 mg" [level=3] [ref=e195]
+                - generic [ref=e196]:
+                  - paragraph [ref=e197]: Precio
+                  - paragraph [ref=e198]: 9,30 €
+              - generic [ref=e199]:
+                - generic [ref=e204]:
+                  - text: "Componente:"
+                  - strong [ref=e205]: Loratadina
+                - generic [ref=e206]: Activa tu ubicación para ver la distancia
+              - link "Ver ruta" [ref=e212] [cursor=pointer]:
+                - /url: https://www.google.com/maps/dir/?api=1&destination=40.4093,-3.7204
+          - listitem [ref=e215]:
+            - article [ref=e216]:
+              - generic [ref=e217]:
+                - generic [ref=e218]:
+                  - paragraph [ref=e219]: Farmacia Este
+                  - heading "Amoxicilina 500 mg" [level=3] [ref=e220]
+                - generic [ref=e221]:
+                  - paragraph [ref=e222]: Precio
+                  - paragraph [ref=e223]: 11,90 €
+              - generic [ref=e224]:
+                - generic [ref=e229]:
+                  - text: "Componente:"
+                  - strong [ref=e230]: Amoxicilina
+                - generic [ref=e231]: Activa tu ubicación para ver la distancia
+              - link "Ver ruta" [ref=e237] [cursor=pointer]:
+                - /url: https://www.google.com/maps/dir/?api=1&destination=40.4218,-3.6881
+  - contentinfo [ref=e240]:
+    - generic [ref=e241]:
+      - paragraph [ref=e242]: FarmaciaCerca · Proyecto de demostración sin backend
+      - paragraph [ref=e243]: Los precios y datos de las farmacias son ficticios.

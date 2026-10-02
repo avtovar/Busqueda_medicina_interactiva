@@ -1,0 +1,32 @@
+{
+  "name": "busqueda-medicamentos",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint",
+    "preview": "vite preview",
+    "datos:catalogo": "node scripts/build-catalogo.mjs",
+    "datos:farmacias": "node scripts/build-farmacias.mjs",
+    "datos": "npm run datos:catalogo && npm run datos:farmacias",
+    "test:normalizacion": "node scripts/verificar-normalizacion.mjs",
+    "test:fragmentacion": "node scripts/diagnostico-fragmentacion.mjs"
+  },
+  "dependencies": {
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "@vitejs/plugin-react": "^6.1.1",
+    "oxlint": "^1.81.0",
+    "tailwindcss": "^4.3.3",
+    "typescript": "~6.0.2",
+    "vite": "^8.3.0"
+  }
+}
