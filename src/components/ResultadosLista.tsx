@@ -8,6 +8,18 @@ type ResultadosListaProps = {
   onClear: () => void
 }
 
+function obtenerPrincipales(resultados: ResultadoGrupo[]) {
+  return resultados.filter(
+    (resultado) => resultado.coincidencia === 'principio-activo' || resultado.coincidencia === 'comercial',
+  )
+}
+
+function obtenerRelacionadas(resultados: ResultadoGrupo[]) {
+  return resultados.filter(
+    (resultado) => resultado.coincidencia === 'asociacion' || resultado.coincidencia === 'relacionado',
+  )
+}
+
 export function ResultadosLista({
   resultados,
   consulta,
@@ -15,82 +27,87 @@ export function ResultadosLista({
   onClear,
 }: ResultadosListaProps) {
   if (resultados.length === 0) {
+    if (!minimaAlcanzada || consulta.trim() === '') return null
+
     return (
-      <div className="rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-14 text-center dark:border-slate-700 dark:bg-slate-950/40">
-        <div className="mx-auto flex size-12 items-center justify-center rounded-2xl bg-slate-100 text-slate-400">
-          <svg aria-hidden="true" className="size-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-            <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-4.35-4.35m2.1-5.4a7.5 7.5 0 1 1-15 0 7.5 7.5 0 0 1 15 0Z" />
-          </svg>
+      <div className="flex flex-col items-start gap-3 border-b border-slate-200 py-5 sm:flex-row sm:items-center sm:justify-between dark:border-slate-800" role="status">
+        <div>
+          <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">No encontramos coincidencias</h3>
+          <p className="mt-1 max-w-xl text-sm leading-6 text-slate-600 dark:text-slate-300">
+            Probá con el principio activo o con el nombre comercial. El catálogo disponible es parcial.
+          </p>
         </div>
-        <h3 className="mt-4 text-lg font-bold text-slate-900">
-          {consulta.trim() === ''
-            ? 'Buscá un medicamento'
-            : minimaAlcanzada
-              ? 'Sin resultados'
-              : 'Faltan letras'}
-        </h3>
-        <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-slate-500">
-          {!minimaAlcanzada && consulta.trim() !== ''
-            ? 'Escribí al menos 3 letras para buscar.'
-            : 'Probá con el principio activo (ibuprofeno, paracetamol) o con el nombre comercial (Actron, Losacor).'}
-        </p>
-        {consulta.trim() !== '' && (
-          <button
-            className="mt-5 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-sky-700 focus:outline-none focus:ring-4 focus:ring-slate-900/15 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-sky-200 dark:focus:ring-sky-500/20"
-            onClick={onClear}
-            type="button"
-          >
-            Limpiar búsqueda
-          </button>
-        )}
+        <button
+          className="min-h-11 shrink-0 rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-sky-300 hover:bg-sky-50 hover:text-sky-800 focus:outline-none focus:ring-4 focus:ring-sky-500/10 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-sky-400 dark:hover:bg-sky-950/40 dark:hover:text-sky-100 dark:focus:ring-sky-500/20"
+          onClick={onClear}
+          type="button"
+        >
+          Limpiar búsqueda
+        </button>
       </div>
     )
   }
 
-  const exactos = resultados.filter(
-    (r) => r.coincidencia === 'principio-activo' || r.coincidencia === 'comercial',
-  )
-  const otros = resultados.filter(
-    (r) => r.coincidencia === 'asociacion' || r.coincidencia === 'relacionado',
-  )
+  const principales = obtenerPrincipales(resultados)
+
+  if (principales.length === 0) {
+    return (
+      <p className="border-b border-slate-200 py-5 text-sm leading-6 text-slate-600 dark:border-slate-800 dark:text-slate-300" role="status">
+        No encontramos coincidencias principales. Las coincidencias relacionadas aparecen después del directorio.
+      </p>
+    )
+  }
 
   return (
-    <div className="space-y-10">
-      {exactos.length > 0 && (
-        <section aria-labelledby="resultados-exactos">
-          <h3 className="mb-4 text-sm font-bold uppercase tracking-[0.16em] text-slate-500" id="resultados-exactos">
-            {exactos.length === 1
-              ? '1 composición que coincide'
-              : `${exactos.length} composiciones que coinciden`}
-          </h3>
-          <ul className="grid gap-4 lg:grid-cols-2">
-            {exactos.map((grupo) => (
-              <li key={grupo.clave}>
-                <GrupoCard grupo={grupo} />
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
+    <section aria-labelledby="resultados-principales" className="min-w-0">
+      <div className="mb-3 flex items-center justify-between gap-4">
+        <h3 className="text-base font-bold text-slate-800 dark:text-slate-200" id="resultados-principales">
+          Coincidencias principales
+        </h3>
+        <span className="text-sm text-slate-500 dark:text-slate-400">
+          {principales.length} {principales.length === 1 ? 'composición' : 'composiciones'}
+        </span>
+      </div>
+      <ul className="space-y-4">
+        {principales.map((grupo) => (
+          <li key={grupo.clave}>
+            <GrupoCard consulta={consulta} grupo={grupo} />
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
 
-      {otros.length > 0 && (
-        <section aria-labelledby="resultados-asociaciones">
-          <h3 className="mb-1 text-sm font-bold uppercase tracking-[0.16em] text-amber-700" id="resultados-asociaciones">
-            {otros.length} {otros.length === 1 ? 'relacionada' : 'relacionadas'}
+export function ResultadosRelacionadas({
+  resultados,
+  consulta,
+}: Pick<ResultadosListaProps, 'resultados' | 'consulta'>) {
+  const relacionadas = obtenerRelacionadas(resultados)
+  if (relacionadas.length === 0) return null
+
+  return (
+    <section aria-labelledby="resultados-relacionados" className="mt-9 border-t border-slate-200 pt-6 dark:border-slate-800">
+      <div className="mb-3 border-b border-slate-200 pb-3 dark:border-slate-800">
+        <div className="flex items-baseline justify-between gap-4">
+          <h3 className="text-base font-bold text-slate-800 dark:text-slate-200" id="resultados-relacionados">
+            Coincidencias relacionadas
           </h3>
-          <p className="mb-4 text-sm text-slate-500">
-            Productos que contienen lo que buscaste junto con otro principio activo, o nombres
-            parecidos. No son el mismo medicamento.
-          </p>
-          <ul className="grid gap-4 lg:grid-cols-2">
-            {otros.map((grupo) => (
-              <li key={grupo.clave}>
-                <GrupoCard grupo={grupo} />
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-    </div>
+          <span className="shrink-0 text-sm font-medium text-amber-800 dark:text-amber-300">
+            {relacionadas.length} {relacionadas.length === 1 ? 'resultado' : 'resultados'}
+          </span>
+        </div>
+        <p className="mt-1 text-sm leading-6 text-slate-600 dark:text-slate-400">
+          Asociaciones y nombres afines; no son el mismo medicamento.
+        </p>
+      </div>
+      <ul className="space-y-4">
+        {relacionadas.map((grupo) => (
+          <li key={grupo.clave}>
+            <GrupoCard consulta={consulta} grupo={grupo} />
+          </li>
+        ))}
+      </ul>
+    </section>
   )
 }

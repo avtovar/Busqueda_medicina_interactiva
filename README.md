@@ -42,6 +42,7 @@ Fuente: [Farmacias — Buenos Aires Data](https://cdn.buenosaires.gob.ar/datosab
 | `npm run datos:farmacias` | Genera `public/datos/farmacias.json` desde dataset CABA |
 | `npm run test:normalizacion` | Verifica normalización de presentaciones, potencias y dosis decimales |
 | `npm run test:fragmentacion` | Diagnóstico de fragmentación de presentaciones por abreviaturas |
+| `npm run test:layout` | Regresión de orden principal → directorio → relacionadas y estado sin coincidencias |
 
 ## Desarrollo
 
@@ -52,9 +53,10 @@ npm ci
 # Generar datos locales (requiere conectividad para CNPM/PAMI)
 npm run datos
 
-# Ejecutar tests de normalización y diagnóstico
+# Ejecutar tests de normalización, diagnóstico y layout
 npm run test:normalizacion
 npm run test:fragmentacion
+npm run test:layout
 
 # Lint + build
 npm run lint && npm run build
@@ -73,12 +75,62 @@ npm run dev
 - **Accesibilidad**: enlaces externos con `rel="noreferrer"`, `target="_blank"` cuando corresponde. Estructura semántica y aria donde aplica.
 - **Snapshot local**: el POST de CNPM requiere JSON y tiene restricciones de preflight; usar JSON generados evita bloqueos CORS en runtime.
 
+## Vistas de diseño (canvas Kombai)
+
+El diseño vive en `.kombai/canvas/farmaciacerca-designs.canvas`. Contiene seis
+vistas; **el código implementa las cuatro marcadas `IN USE`**.
+
+| Nodo | Label | Estado |
+| --- | --- | --- |
+| `var_a17d52782a27` | `00 · Índice de vistas` | Documentación del canvas, no es una vista de producto |
+| `var_7d04bac3707e` | `01 · Búsqueda primero · BETA` | **Archivada como referencia** — ver abajo |
+| `var_76c29374a767` | `02 · Dos tareas claras · IN USE` | Desktop con resultados — **implementada** |
+| `var_7431d544ab2c` | `03 · Dos tareas claras · Sin resultados · IN USE` | Desktop sin resultados — **implementada** |
+| `var_e4fed7da5f67` | `04 · Mobile · Resultados · IN USE` | Mobile con resultados — **implementada** |
+| `var_9046ac25552e` | `05 · Mobile · Sin resultados · IN USE` | Mobile sin resultados — **implementada** |
+
+### Vista 01 (BETA): archivada, no es un pendiente
+
+`Búsqueda primero` fue la propuesta previa. **No está pendiente de
+implementación**: quedó superada por `Dos tareas claras` (nodos 02–05), que es
+la que está en producción. Se conserva en el canvas a propósito, como registro
+de las decisiones que motivaron el diseño actual:
+
+- Passó de un buscador protagonista con directorio de farmacias al costado a
+  **dos tareas separadas y explícitas**: primero precios de referencia, después
+  el registro de farmacias.
+- Se agregó la aclaración explícita de que el registro de farmacias es
+  **independiente de la búsqueda** y no informa precio ni stock.
+- Se separaron **coincidencias principales** de **coincidencias relacionadas**,
+  con una explicación por tipo de coincidencia.
+- Se añadió el bloque `Fuentes y limitaciones` con la advertencia de no consejo
+  médico.
+
+No reimplementar esta vista salvo pedido expreso: el código es compartido con
+los nodos 02–05 y no puede mostrar ambas variantes a la vez.
+
+### Deriva de copy entre nodos
+
+Los nodos mobile (04–05) tienen texto desactualizado respecto del desktop
+(02–03) en dos puntos, porque el copy del desktop se revisa después:
+
+- La explicación de orden: mobile conserva `Ordená por el menor precio de
+  referencia de cada composición…`; desktop ya usa `Ordena por el mínimo de cada
+  composición…`. **Rige el texto de desktop (nodo 02).**
+- Mobile escribe `Sin ubicación activada; la lista está en orden alfabético.`
+  con punto y coma; desktop usa coma. **Rige el texto de desktop (nodo 02).**
+
 ## Límites conocidos
 
 - Cobertura **solo CABA**.
 - Catálogo limitado a los términos derivados de la semilla PAMI (no es el Vademécum completo).
 - **Precios de referencia**, no precios confirmados por farmacia. No hay stock ni disponibilidad por sucursal.
 - No existe descarga pública completa de CNPM; el snapshot debe regenerarse para actualizar vigencia.
+- **Calidad del dato de origen**: la agrupación usa el campo `DROGA` de CNPM sin
+  verificaciones cruzadas. Hay registros donde CNPM declara un principio activo
+  que no coincide con el nombre del producto (ej. el grupo `dexibuprofeno`
+  contiene `CEFALEX VL`, que es cefalexina). Se muestra lo que declara CNPM en
+  lugar de filtrar, para no ocultar datos por heurística.
 
 ## Testing
 

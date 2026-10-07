@@ -220,11 +220,11 @@ const catalogo = await (async () => {
       vigencia: await vigencia(),
       fuente: 'Vademecum Nacional de Medicamentos (CNPM) - Ministerio de Salud',
       semilla:
-        `Los ${registros.length} medicamentos mas consumidos del ranking PAMI (ranks ` +
+        `Los ${registros.length} medicamentos más consumidos del ranking PAMI (ranks ` +
         `${rangoRank[0]} a ${rangoRank[1]}, datos.gob.ar)`,
       aviso:
         'Los precios son precios oficiales de referencia a fecha de vigencia, no precios confirmados ' +
-        'por farmacia. La dispersion mostrada es entre laboratorios de una misma presentacion.',
+        'por farmacia. La dispersión mostrada es entre laboratorios de una misma presentación.',
       totalTerminos: terminos.length,
       totalFilasSemilla: registros.length,
       totalPrincipiosActivosSemilla: genericos.length,

@@ -13,6 +13,7 @@ Viewport de escritorio: 1280 × 900. Catálogo local: snapshot CNPM + PAMI (`pub
 | CP-06 | Geolocalización y distancia Haversine | OK. Aprobado |
 | CP-07 | Estado vacío, hint mínimo de letras y botón Limpiar | OK. Aprobado |
 | CP-08 | Vista responsive y enlaces telefónicos/ruta | OK. Aprobado |
+| CP-09 | Regresión automatizada del orden y estado sin resultados | Cubierto por `npm run test:layout` |
 
 ---
 
@@ -101,22 +102,22 @@ Viewport de escritorio: 1280 × 900. Catálogo local: snapshot CNPM + PAMI (`pub
 
 ---
 
-## CP-05 Ordenamiento por precio y por ofertas
+## CP-05 Ordenamiento por precio y por productos
 
-**Objetivo:** permitir ordenar los resultados mostrados.
+**Objetivo:** permitir ordenar los resultados mostrados con el alcance del precio mínimo explícito.
 
 **Pasos**
 1. Buscar `ibuprofeno`.
-2. Cambiar orden a "Menor precio primero", "Mayor precio primero", "Más ofertas primero", "Por nombre (A–Z)".
+2. Cambiar orden entre precio mínimo de referencia ascendente/descendente, cantidad de productos y nombre (A–Z).
 
 **Esperado**
-- "Menor precio primero": ordena por `precioDesde` ascendente.
-- "Mayor precio primero": descendente.
-- "Más ofertas primero": por `totalProductos` descendente.
-- "Por nombre (A–Z)": alfabético por etiqueta del grupo.
+- El precio ordena por `precioDesde` de cada composición; el mínimo puede provenir de distintas presentaciones entre composiciones.
+- "Más productos": ordena por `totalProductos` descendente.
+- "Nombre (A - Z)": alfabético por etiqueta del grupo.
+- El detalle compara ofertas solo dentro de cada presentación idéntica.
 
 **Resultado real**
-- El selector de orden funciona sobre los resultados listados. Los grupos con menor precioDesde aparecen primero en ascendente. El conteo de presentaciones/ofertas se respeta en cada tarjeta.
+- El selector de orden funciona sobre los resultados listados. El conteo de presentaciones/ofertas se muestra en cada composición.
 
 ---
 
@@ -166,17 +167,20 @@ Viewport de escritorio: 1280 × 900. Catálogo local: snapshot CNPM + PAMI (`pub
 **Pasos**
 1. Viewport 375×812 (móvil), 768×1024 (tablet), 1280×900 (desktop).
 2. Buscar `ibuprofeno` y expandir presentaciones si corresponde.
-3. Verificar enlace "Ver ruta" a Google Maps (coordenadas) y enlaces telefónicos (`tel:`).
+3. Verificar que la composición principal aparece antes del directorio y las coincidencias relacionadas después, en desktop y móvil.
+4. Probar el filtro del directorio, el enlace "Ver ruta" a Google Maps y los enlaces telefónicos (`tel:`) cuando están disponibles.
+5. Buscar `xyzqqq` y confirmar que el directorio independiente sigue disponible.
 
 **Esperado**
 - Sin scroll horizontal en ningún tamaño.
-- 1 columna en móvil, 2 en tablet, ≥2 o layout adaptado en desktop.
+- En desktop con coincidencia principal, el directorio de CABA aparece junto al resultado; en móvil, aparece después del resultado principal y antes de las relacionadas.
+- Sin coincidencia principal, el directorio sigue disponible sin asociarse al medicamento.
 - Enlace "Ver ruta": apunta a Google Maps con `destination` (lat,lng), abre en pestaña nueva, con `rel="noreferrer"`.
 - Teléfono: enlace `tel:` cuando existe.
 
 **Resultado real**
-- Layout responsive correcto en los tres viewports. Sin desbordamiento horizontal.
-- Enlaces a Google Maps con coordenadas correctas, `target="_blank"`, `rel="noreferrer"`.
+- Layout responsive correcto en móvil y desktop, sin desbordamiento horizontal; el orden del contenido respeta los límites entre resultados y directorio.
+- El filtro reduce los registros correctamente. Enlaces a Google Maps con coordenadas correctas, `target="_blank"`, `rel="noreferrer"`.
 - Enlaces telefónicos funcionales cuando el registro tiene teléfono.
 
 ---

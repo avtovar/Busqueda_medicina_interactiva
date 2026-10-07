@@ -1,45 +1,66 @@
 import { useState } from 'react'
+import type { ReactNode } from 'react'
 import type { FarmaciaConDistancia } from '../types/datos'
 import { formatDistance } from '../utils/distance'
 
 const VISIBLES_INICIALES = 8
+const VISIBLES_COMPACTAS = 2
 
-function FarmaciaItem({ farmacia }: { farmacia: FarmaciaConDistancia }) {
+function FarmaciaItem({ farmacia, compact }: { farmacia: FarmaciaConDistancia; compact: boolean }) {
   const ruta = `https://www.google.com/maps/dir/?api=1&destination=${farmacia.lat},${farmacia.lng}`
+  const telefono = farmacia.telefono?.replace(/[^\d+]/g, '')
 
   return (
-    <li className="flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:flex-row sm:items-start sm:justify-between dark:border-slate-800 dark:bg-slate-950/40">
+    <li className={`grid gap-3 border-t border-slate-200 py-4 dark:border-slate-800 ${compact ? '' : 'sm:grid-cols-[minmax(0,1.2fr)_minmax(10rem,0.8fr)_auto] sm:items-center'}`}>
       <div className="min-w-0">
-        <h4 className="text-sm font-bold text-slate-900">{farmacia.nombre}</h4>
-        <p className="mt-1 text-xs leading-5 text-slate-600">
+        <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">{farmacia.nombre}</h3>
+        <p className="mt-1 text-sm leading-5 text-slate-600 dark:text-slate-300">
           {farmacia.direccion ?? 'Dirección no informada'}
-        </p>
-        <p className="mt-0.5 text-xs text-slate-400">
-          {[farmacia.barrio, farmacia.comuna].filter(Boolean).join(' · ')}
+          {[farmacia.barrio, farmacia.comuna].filter(Boolean).length > 0 && (
+            <span className="text-slate-500 dark:text-slate-400">
+              {' '}· {[farmacia.barrio, farmacia.comuna].filter(Boolean).join(' · ')}
+            </span>
+          )}
         </p>
       </div>
 
-      <div className="flex shrink-0 flex-wrap items-center gap-2">
-        <span className="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600">
-          {formatDistance(farmacia.distanceKm)}
-        </span>
-        {farmacia.telefono && (
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+        {farmacia.telefono && telefono && (
           <a
-            className="rounded-lg border border-slate-200 px-2.5 py-1.5 text-xs font-bold text-slate-700 transition hover:border-sky-300 hover:bg-sky-50 hover:text-sky-700 focus:outline-none focus:ring-4 focus:ring-sky-500/10 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:border-sky-400 dark:hover:bg-sky-950/40 dark:hover:text-sky-100 dark:focus:ring-sky-500/20"
-            href={`tel:${farmacia.telefono.replace(/[^\d+]/g, '')}`}
+            aria-label={`Llamar a ${farmacia.nombre}: ${farmacia.telefono}`}
+            className="inline-flex min-h-11 items-center font-semibold text-sky-800 underline decoration-sky-300 underline-offset-4 hover:text-sky-950 focus:outline-none focus:ring-4 focus:ring-sky-500/10 dark:text-sky-300 dark:decoration-sky-700 dark:hover:text-sky-200 dark:focus:ring-sky-500/20"
+            href={`tel:${telefono}`}
           >
-            {farmacia.telefono}
+            Llamar · {farmacia.telefono}
           </a>
         )}
+        {farmacia.distanceKm !== null ? (
+          <span className="text-slate-600 dark:text-slate-400">{formatDistance(farmacia.distanceKm)}</span>
+        ) : (
+          <span className="text-slate-500 dark:text-slate-400">Sin ubicación para calcular distancia</span>
+        )}
+        {compact && (
+          <a
+            className="inline-flex min-h-11 items-center justify-center rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-sky-800 focus:outline-none focus:ring-4 focus:ring-slate-900/15 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-sky-200 dark:focus:ring-sky-500/20"
+            href={ruta}
+            rel="noreferrer"
+            target="_blank"
+          >
+            Abrir ruta
+          </a>
+        )}
+      </div>
+
+      {!compact && (
         <a
-          className="rounded-lg bg-slate-900 px-2.5 py-1.5 text-xs font-bold text-white transition hover:bg-sky-700 focus:outline-none focus:ring-4 focus:ring-slate-900/15 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-sky-200 dark:focus:ring-sky-500/20"
+          className="inline-flex min-h-11 items-center justify-center self-start rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-sky-800 focus:outline-none focus:ring-4 focus:ring-slate-900/15 sm:self-center dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-sky-200 dark:focus:ring-sky-500/20"
           href={ruta}
           rel="noreferrer"
           target="_blank"
         >
-          Ruta
+          Abrir ruta
         </a>
-      </div>
+      )}
     </li>
   )
 }
@@ -50,6 +71,8 @@ type FarmaciasCercanasProps = {
   hayUbicacion: boolean
   filtro: string
   onFiltroChange: (valor: string) => void
+  compact?: boolean
+  locationStatus?: ReactNode
 }
 
 export function FarmaciasCercanas({
@@ -58,63 +81,72 @@ export function FarmaciasCercanas({
   hayUbicacion,
   filtro,
   onFiltroChange,
+  compact = false,
+  locationStatus,
 }: FarmaciasCercanasProps) {
   const [todas, setTodas] = useState(false)
-  const visibles = todas ? farmacias : farmacias.slice(0, VISIBLES_INICIALES)
+  const limiteVisible = compact ? VISIBLES_COMPACTAS : VISIBLES_INICIALES
+  const visibles = todas ? farmacias : farmacias.slice(0, limiteVisible)
 
   return (
-    <section aria-labelledby="farmacias-title" className="pt-12">
-      <div className="mb-1 flex flex-wrap items-baseline justify-between gap-4">
-        <h2 className="text-2xl font-extrabold tracking-tight text-slate-900" id="farmacias-title">
-          Farmacias en CABA
-        </h2>
-        <p className="shrink-0 text-sm font-semibold text-slate-500">
-          {farmacias.length.toLocaleString('es-AR')} de {total.toLocaleString('es-AR')}
-        </p>
+    <section aria-labelledby="farmacias-title" className={compact ? '' : 'pt-7'}>
+      <div className={`flex flex-col gap-4 ${compact ? '' : 'sm:flex-row sm:items-end sm:justify-between'}`}>
+        <div>
+          <h2 className={`${compact ? 'text-xl' : 'text-2xl'} font-bold tracking-tight text-slate-950 dark:text-slate-100`} id="farmacias-title">
+            Farmacias registradas en CABA
+          </h2>
+          <p className="mt-1.5 text-sm leading-6 text-slate-600 dark:text-slate-300">
+            El registro es independiente de la búsqueda; no informa precio ni stock. Llamá para consultar antes de ir.
+          </p>
+          {locationStatus}
+        </div>
+        <div className={`flex flex-col gap-2 ${compact ? '' : 'sm:w-64 sm:shrink-0'}`}>
+          <label className="text-sm font-semibold text-slate-600 dark:text-slate-300" htmlFor="farmacia-filtro">
+            Filtrar farmacias
+          </label>
+          <input
+            className="h-11 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm text-slate-900 outline-none transition placeholder:text-slate-500 focus:border-sky-500 focus:ring-4 focus:ring-sky-500/10 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-400 dark:focus:border-sky-400 dark:focus:ring-sky-500/20"
+            id="farmacia-filtro"
+            onChange={(event) => onFiltroChange(event.target.value)}
+            placeholder="Barrio, comuna o nombre"
+            type="search"
+            value={filtro}
+          />
+          <p className="text-sm text-slate-600 dark:text-slate-400">
+            {farmacias.length.toLocaleString('es-AR')} de {total.toLocaleString('es-AR')}
+          </p>
+        </div>
       </div>
-      <p className="mb-5 max-w-2xl text-sm leading-6 text-slate-500">
-        El registro oficial no informa precios ni stock por farmacia, así que no se pueden comparar
-        precios entre estos comercios. Sirven para saber dónde consultar, llamar o ir.
-      </p>
-
-      <label className="sr-only" htmlFor="farmacia-filtro">
-        Filtrar farmacias por nombre, barrio o comuna
-      </label>
-      <input
-        className="mb-4 h-11 w-full max-w-sm rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-sky-500 focus:ring-4 focus:ring-sky-500/10 dark:border-slate-700 dark:bg-slate-950/60 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-sky-400 dark:focus:ring-sky-500/20"
-        id="farmacia-filtro"
-        onChange={(event) => onFiltroChange(event.target.value)}
-        placeholder="Filtrar por barrio, comuna o nombre"
-        type="search"
-        value={filtro}
-      />
 
       {farmacias.length === 0 ? (
-        <p className="rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-10 text-center text-sm text-slate-500 dark:border-slate-700 dark:bg-slate-950/40 dark:text-slate-400">
+        <p className="mt-4 border-y border-slate-200 py-5 text-sm text-slate-600 dark:border-slate-800 dark:text-slate-300">
           Ninguna farmacia del registro coincide con ese filtro.
         </p>
       ) : (
         <>
-          <ul className="space-y-2.5">
+          <ul className="mt-4">
             {visibles.map((farmacia) => (
-              <FarmaciaItem farmacia={farmacia} key={farmacia.id} />
+              <FarmaciaItem compact={compact} farmacia={farmacia} key={farmacia.id} />
             ))}
           </ul>
-          {farmacias.length > VISIBLES_INICIALES && (
+          {farmacias.length > limiteVisible && (
             <button
-              className="mt-4 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 transition hover:border-sky-300 hover:bg-sky-50 hover:text-sky-700 focus:outline-none focus:ring-4 focus:ring-sky-500/10 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:hover:border-sky-400 dark:hover:bg-sky-950/40 dark:hover:text-sky-100 dark:focus:ring-sky-500/20"
-              onClick={() => setTodas((v) => !v)}
+              className="mt-3 inline-flex min-h-11 items-center gap-2 rounded-lg px-1 text-sm font-semibold text-sky-800 transition hover:text-sky-950 focus:outline-none focus:ring-4 focus:ring-sky-500/10 dark:text-sky-300 dark:hover:text-sky-200 dark:focus:ring-sky-500/20"
+              onClick={() => setTodas((value) => !value)}
               type="button"
             >
-              {todas ? 'Ver menos' : `Ver las ${farmacias.length} farmacias`}
+              {todas ? 'Ver menos' : `Ver las ${farmacias.length.toLocaleString('es-AR')} farmacias`}
+              <svg aria-hidden="true" className={`size-4 transition-transform ${todas ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                <path strokeLinecap="round" strokeLinejoin="round" d="m6 9 6 6 6-6" />
+              </svg>
             </button>
           )}
         </>
       )}
 
       {!hayUbicacion && (
-        <p className="mt-4 text-xs text-slate-400">
-          Sin ubicación activada la lista está en orden alfabético.
+        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+          Sin ubicación activada, la lista está en orden alfabético.
         </p>
       )}
     </section>

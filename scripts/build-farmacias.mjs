@@ -95,11 +95,11 @@ const documento = {
   meta: {
     generadoEn: new Date().toISOString(),
     fuente: 'Ministerio de Salud de la Ciudad de Buenos Aires - datos abiertos',
-    cobertura: 'Ciudad autonoma de Buenos Aires',
+    cobertura: 'Ciudad autónoma de Buenos Aires',
     totalFarmacias: farmacias.length,
     conTelefono,
     aviso:
-      'El registro oficial no informa precios ni stock por farmacia. Sirve para ubicacion, ' +
+      'El registro oficial no informa precios ni stock por farmacia. Sirve para ubicación, ' +
       'distancia y contacto, no para comparar precios entre comercios.',
   },
   farmacias,
