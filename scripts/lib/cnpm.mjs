@@ -17,8 +17,10 @@ export async function buscarVademecum(termino, { intentos = 3 } = {}) {
     try {
       const res = await fetch(API, {
         method: 'POST',
+        // ↑ POST con JSON body (no GET con query params)
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({ searchdata: limpio }),
+        // ↑ Campo esperado: "searchdata" (termino normalizado)
         signal: AbortSignal.timeout(60_000),
       })
 
@@ -28,6 +30,7 @@ export async function buscarVademecum(termino, { intentos = 3 } = {}) {
       }
 
       return JSON.parse(new TextDecoder('utf-8').decode(await res.arrayBuffer()))
+      // ↑ Decodifica UTF-8 explícitamente (evita problemas de encoding)
     } catch (error) {
       ultimoError = error
       if (intento < intentos) {
@@ -43,8 +46,10 @@ export async function buscarVademecum(termino, { intentos = 3 } = {}) {
 export async function vigencia() {
   const res = await fetch('https://cnpm.msal.gov.ar/api/vigencia', { signal: AbortSignal.timeout(30_000) })
   return (await res.text()).trim()
+  // ↑ Devuelve string ej. "Enero 2026"
 }
 
 export function esperarTurno() {
   return dormir(PAUSA_MS)
+  // ↑ Pausa 350ms entre peticiones consecutivas
 }

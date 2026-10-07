@@ -4,11 +4,13 @@ import { descargar, decodificar, normalizar, parsearCsv } from './lib/fuentes.mj
 
 const URL_FARMACIAS =
   'https://cdn.buenosaires.gob.ar/datosabiertos/datasets/ministerio-de-salud/farmacias/farmacias.csv'
+// ↑ Dataset oficial de farmacias de CABA (datos abiertos Buenos Aires)
 
 /** Debe coincidir con la ruta que carga la app: public/datos/farmacias.json. */
 const SALIDA = resolve('public/datos/farmacias.json')
 
 function coordenada(valor) {
+  // ↑ Convierte string a número, acepta coma decimal, valida rango razonable
   if (!valor) return null
   const n = Number(String(valor).replace(',', '.'))
   return Number.isFinite(n) && Math.abs(n) > 0 ? n : null
@@ -19,6 +21,7 @@ const { texto, encoding } = decodificar(await descargar(URL_FARMACIAS))
 console.log(`   encoding detectado: ${encoding}`)
 
 const filas = parsearCsv(texto, ',')
+// ↑ CSV de CABA usa coma como delimitador
 const cols = filas[0].map((c) => c.trim())
 console.log(`   columnas: ${cols.join(' | ')}`)
 
@@ -40,6 +43,7 @@ const iComuna = idx('comuna')
 console.log('\n2. Limpiando registros...')
 
 const vistas = new Set()
+// ↑ Set de IDs vistos para deduplicar (normalizado(nombre|direccion))
 const farmacias = []
 let sinCoordenadas = 0
 let sinNombre = 0
@@ -52,6 +56,7 @@ for (const f of filas.slice(1)) {
   // Fuera de CABA no sirve para calcular distancia ni ruta.
   if (lat === null || long === null) { sinCoordenadas += 1; continue }
   if (lat < -35.1 || lat > -34.4 || long < -58.6 || long > -58.2) continue
+  // ↑ Bounding box aproximado de CABA (filtra puntos fuera de la ciudad)
 
   const nombre = (f[iNombre] ?? '').trim()
   if (!nombre) { sinNombre += 1; continue }
@@ -62,6 +67,7 @@ for (const f of filas.slice(1)) {
 
   const telefono = (f[iTel] ?? '').trim()
   const id = normalizar(`${nombre}|${direccion}`)
+  // ↑ ID único: normaliza "Nombre|Dirección" para deduplicar
   if (vistas.has(id)) { duplicados += 1; continue }
   vistas.add(id)
 

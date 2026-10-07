@@ -1,6 +1,7 @@
 import { readFileSync } from 'node:fs'
 
 const doc = JSON.parse(readFileSync('public/datos/catalogo.json', 'utf8'))
+// ↑ Lee el catálogo generado para analizar fragmentación
 
 console.log('=== TAMAÑO DE LOS GRUPOS DE PRESENTACION ===')
 const todos = doc.grupos.flatMap((g) => g.presentaciones.map((p) => ({ g, p })))
@@ -9,6 +10,7 @@ for (const { p } of todos) porTam.set(p.ofertas.length, (porTam.get(p.ofertas.le
 ;[...porTam.entries()].sort((a, b) => a[0] - b[0]).slice(0, 10).forEach(([n, c]) => {
   console.log(`  ${String(n).padStart(3)} laboratorios: ${String(c).padStart(4)} presentaciones`)
 })
+// ↑ Histograma: cuántas presentaciones tienen 1, 2, 3... laboratorios
 
 console.log('\n=== GRUPOS MONOFARMACOS (los que el usuario busca de verdad) ===')
 for (const g of doc.grupos.filter((x) => !x.esAsociacion).sort((a, b) => b.totalProductos - a.totalProductos)) {
@@ -19,6 +21,7 @@ for (const g of doc.grupos.filter((x) => !x.esAsociacion).sort((a, b) => b.total
     .forEach((p) => console.log(`     ${p.ofertas.length === 1 ? ' ' : '*'} ${p.clave.padEnd(34)} ${String(p.ofertas.length).padStart(2)} labs  $${p.precioMin} - $${p.precioMax}`))
   if (g.presentaciones.length > 14) console.log(`     ... y ${g.presentaciones.length - 14} mas`)
 }
+// ↑ Lista monofármacos ordenados por totalProductos; * = presentaciones con >1 lab (comparables)
 
 console.log('\n=== POSIBLES FUSIONES PENDIENTES: claves que se parecen mucho ===')
 const mono = doc.grupos.filter((x) => !x.esAsociacion)
@@ -29,6 +32,7 @@ for (const g of mono.slice(0, 6)) {
     for (const b of claves) {
       if (a === b) continue
       const base = (s) => s.replace(/\b\w{2,7}\b/g, '').replace(/\s+/g, '').trim()
+      // ↑ Quita palabras cortas (abreviaturas) y espacios; compara "esqueleto"
       if (base(a) === base(b) && base(a).length > 4) {
         if (!casi.has(a)) casi.set(a, new Set())
         casi.get(a).add(b)
@@ -39,6 +43,7 @@ for (const g of mono.slice(0, 6)) {
   console.log(`\n  ${g.etiqueta}:`)
   for (const [a, bs] of casi) console.log(`     "${a}"  <->  ${[...bs].map((x) => `"${x}"`).join(', ')}`)
 }
+// ↑ Detecta claves que difieren solo en abreviaturas (candidatas a unificar en ABREVIATURAS)
 
 console.log('\n=== PALABRAS MAS FRECUENTES EN LAS CLAVES (para ampliar el diccionario) ===')
 const palabras = new Map()
@@ -46,3 +51,4 @@ for (const { p } of todos) for (const w of p.clave.split(/\s+/)) palabras.set(w,
 ;[...palabras.entries()].sort((a, b) => b[1] - a[1]).slice(0, 55).forEach(([w, c]) => {
   console.log(`  ${String(c).padStart(4)}  ${w}`)
 })
+// ↑ Frecuencia de tokens en claves; ayuda a encontrar abreviaturas faltantes en ABREVIATURAS

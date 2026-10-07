@@ -1,46 +1,75 @@
 @import "tailwindcss";
+/* ↑ Importa Tailwind CSS v4 (nueva arquitectura basada en CSS, sin configuración JS) */
 
 @custom-variant dark (&:where(.dark, .dark *));
+/* ↑ Define la variante `dark:`: aplica cuando hay clase .dark en el elemento o en un ancestro */
+/* ↑ Permite usar `dark:bg-slate-950` etc. controlando con clase .dark en <html> */
 
 :root {
+  /* ============================================================
+     Variables CSS globales (tokens de diseño) - Tema CLARO
+     ============================================================ */
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  /* ↑ Stack tipográfico: Inter si está disponible, fallback a fuentes del sistema */
   color: #0f172a;
+  /* ↑ Color de texto base (slate-900) */
   background: #f8fafc;
+  /* ↑ Color de fondo base (slate-50) */
   font-synthesis: none;
+  /* ↑ Desactiva síntesis de negrita/itálica por el navegador (usa fuentes reales) */
   text-rendering: optimizeLegibility;
+  /* ↑ Prioriza legibilidad sobre velocidad (kerning, ligaduras) */
   -webkit-font-smoothing: antialiased;
+  /* ↑ Suavizado de fuentes en WebKit (Chrome, Safari) */
   -moz-osx-font-smoothing: grayscale;
+  /* ↑ Suavizado en Firefox macOS */
 }
 
 .dark {
+  /* ============================================================
+     Tema OSCURO - se activa cuando <html> tiene clase .dark
+     (controlado por ThemeToggle + localStorage + prefers-color-scheme)
+     ============================================================ */
   color: #e5e7eb;
+  /* ↑ Texto base claro (slate-200) */
   background: #0f172a;
+  /* ↑ Fondo base oscuro (slate-950) */
 }
 
 * {
   box-sizing: border-box;
+  /* ↑ Modelo de caja border-box en TODOS los elementos (padding/border dentro del width) */
 }
 
 body {
   min-width: 320px;
+  /* ↑ Ancho mínimo 320px (mobile pequeño) para evitar layout roto */
   margin: 0;
+  /* ↑ Elimina margen por defecto del body (8px en navegadores) */
 }
 
 button,
 input,
 select {
   font: inherit;
+  /* ↑ Heredan tipografía del padre (evita que inputs tengan fuente distinta) */
 }
 
 @layer base {
+  /* ============================================================
+     Capa base de Tailwind: estilos de elementos nativos
+     ============================================================ */
   input[type="search"]::-webkit-search-cancel-button,
   input[type="search"]::-webkit-search-decoration {
     appearance: none;
     -webkit-appearance: none;
+    /* ↑ Elimina el botón "x" nativo de WebKit en <input type="search"> */
+    /* ↑ Nosotros usamos nuestro propio botón Limpiar en SearchBar */
   }
 }
 
 ::selection {
   color: #ffffff;
   background: #0ea5e9;
+  /* ↑ Color de selección de texto: blanco sobre sky-500 (brand) */
 }

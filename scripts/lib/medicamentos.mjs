@@ -1,4 +1,5 @@
 const norm = (s) => (s ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/\s+/g, ' ').trim()
+// ↑ Normalización reusable: NFD + quita acentos + minúsculas + colapsa espacios + trim
 
 /**
  * El campo DROGA codifica la composicion: los grupos se separan con "+" y los
@@ -8,6 +9,7 @@ const norm = (s) => (s ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').t
  *   "clorfeniramina maleato+ibuprofeno+pseudoef."
  */
 export function ingredientesDe(droga) {
+  // ↑ Parsea DROGA -> array de ingredientes normalizados
   return (droga ?? '')
     .split('+')
     .flatMap((grupo) => grupo.split(',').map(norm))
@@ -60,6 +62,7 @@ const ABREVIATURAS = new Map([
  * precios entre si.
  */
 export function clavePresentacion(presentacion) {
+  // ↑ Genera clave estable para agrupar ofertas de LA MISMA presentacion
   let p = norm(presentacion)
   if (!p) return 'sin presentacion'
 
@@ -74,17 +77,23 @@ export function clavePresentacion(presentacion) {
 
   p = p
     .replace(/\./g, ' ')
+    // ↑ Puntos -> espacios (despues de proteger decimales)
     .replace(/(\d)\s*(mcg|mg|ml|gr|g)\b/g, '$1 $2 ')
+    // ↑ Espacio entre numero y unidad
     .replace(/\b(mcg|mg|ml|gr|g)\b/g, ' $1 ')
+    // ↑ Espacio alrededor de unidades sueltas
     .replace(/%/g, ' % ')
     .replace(/\bx\s*(\d+)/g, ' x $1')
+    // ↑ "x10" -> "x 10"
     .replace(/\s*\/\s*/g, '/')
     .replace(/\s+/g, ' ')
     .trim()
 
   p = p.replace(/DEC(\d+)DEC/g, (_, i) => decimales[Number(i)])
+  // ↑ Restaura decimales protegidos
 
   p = p.replace(/[a-z]+/g, (palabra) => ABREVIATURAS.get(palabra) ?? palabra)
+  // ↑ Reemplaza abreviaturas conocidas por canonicas
 
   return p
 }

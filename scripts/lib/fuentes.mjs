@@ -1,5 +1,7 @@
 const PAUSA_MS = 350
+// ↑ Pausa entre peticiones a CNPM (ms) para no saturar el servicio
 const REINTENTOS = 3
+// ↑ Reintentos ante fallo de red/HTTP
 
 export function normalizar(texto) {
   return (texto ?? '')
@@ -11,13 +13,16 @@ export function normalizar(texto) {
 }
 
 export function descargar(url, { intentos = REINTENTOS } = {}) {
+  // ↑ Descarga con reintentos exponenciales y timeout
   return (async () => {
     let ultimoError
     for (let intento = 1; intento <= intentos; intento += 1) {
       try {
         const res = await fetch(url, {
           headers: { 'User-Agent': 'FarmaciaCerca/0.1 (generador de datos; proyecto personal)' },
+          // ↑ User-Agent identificatorio (buenas prácticas)
           signal: AbortSignal.timeout(90_000),
+          // ↑ Timeout 90s para descargas grandes (CSV PAMI)
         })
         if (!res.ok) throw new Error(`HTTP ${res.status}`)
         return Buffer.from(await res.arrayBuffer())
@@ -67,6 +72,7 @@ export function parsearCsv(texto, delimitador = ',') {
     if (enComillas) {
       if (c === '"') {
         if (texto[i + 1] === '"') { campo += '"'; i += 1 } else { enComillas = false }
+        // ↑ Comilla doble escapada ("") -> comilla literal; comilla simple -> cierra campo
       } else { campo += c }
       continue
     }
@@ -80,4 +86,5 @@ export function parsearCsv(texto, delimitador = ',') {
 
   if (campo.length > 0 || fila.length > 0) { fila.push(campo); filas.push(fila) }
   return filas.filter((f) => f.some((v) => v.trim() !== ''))
+  // ↑ Descarta filas completamente vacías
 }
