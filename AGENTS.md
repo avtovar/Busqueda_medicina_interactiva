@@ -85,6 +85,19 @@ Si puerto ocupado: cerrar procesos `node` viejos de Vite antes de reintentar.
 
 ---
 
+## Formas de buscar (resumen para agentes)
+
+| Entrada | Qué busca | Resultado | Badge |
+|---|---|---|---|
+| `ibuprofeno`, `ibu` | Principio activo (prefijo por palabra) | Monofármaco `ibuprofeno` | **Principio activo** 🔵 |
+| `Actron`, `Ibupirac` | Nombre comercial (marca) | Grupo `ibuprofeno` + **Marca: Actron, Ibupirac** | **Nombre comercial** 🟣 |
+| `ibuprofeno cafeina` | Asociación (múltiples principios) | Grupos con ambos | **Asociación** 🟠 |
+| `profeno` (≥4 letras) | Coincidencia parcial | Relacionados | **Relacionado** ⚪ |
+
+- Mínimo 3 letras; prefijo por palabra; parcial ≥4 letras.
+- Al buscar por marca → tarjeta muestra **"Marca: Actron, Ibupirac"** (color índigo).
+- Jerarquía: Principio activo > Nombre comercial > Asociación > Relacionado.
+
 ## Documentación generada
 
 - `DOCUMENTACION.md` — firma: *Ali Valentín Tovar Morales*

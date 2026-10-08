@@ -7,6 +7,7 @@ Aplicación web para buscar medicamentos y ver **precio de referencia** + **dón
 - Mostrar **precio de referencia** por presentación (misma dosis, forma y cantidad). Solo se comparan precios entre laboratorios dentro de una misma presentación.
 - Indicar **dónde comprar**: listado de farmacias registradas en CABA con coordenadas, dirección y teléfono.
 - Búsqueda por **principio activo** o **nombre comercial**, con jerarquía clara (principio activo > comercial > asociación > relacionado).
+- **Muestra la marca coincidente** cuando la búsqueda es por nombre comercial.
 - Datos **locales** (snapshot pre-generado): funciona offline una vez construida y evita depender de CORS en tiempo de ejecución.
 
 ## Arquitectura de datos
@@ -64,6 +65,22 @@ npm run lint && npm run build
 # Desarrollo
 npm run dev
 ```
+
+## Formas de buscar
+
+| Qué escribís | Qué busca | Resultado principal | Badge |
+|---|---|---|---|
+| `ibuprofeno`, `ibu`, `paracetamol` | Principio activo (prefijo por palabra) | Grupo monofármaco `ibuprofeno` | **Principio activo** 🔵 |
+| `Actron`, `Ibupirac`, `Buscapina` | Nombre comercial (marca) | Grupo del principio activo + **Marca: Actron, Ibupirac** | **Nombre comercial** 🟣 |
+| `ibuprofeno cafeina`, `hioscina ibuprofeno` | Asociación (múltiples principios) | Grupos que contienen ambos | **Asociación** 🟠 |
+| `profeno`, `tamol` (≥4 letras) | Coincidencia parcial dentro de palabra | Grupos relacionados | **Relacionado** ⚪ |
+
+**Reglas:**
+- Mínimo **3 letras** para buscar (coincide con CNPM).
+- **Prefijo por palabra**: `ibu` encuentra `ibuprofeno` (no substring arbitrario).
+- Coincidencia parcial **≥4 letras** para evitar falsos positivos.
+- Jerarquía de resultados: **Principio activo > Nombre comercial > Asociación > Relacionado**.
+- Al buscar por marca, la tarjeta muestra **"Marca: Actron, Ibupirac"** en color índigo.
 
 ## Decisiones de diseño
 
