@@ -9,12 +9,23 @@ Stack: React 19 + Vite 8 + Tailwind v4 + TypeScript, datos locales en `public/da
 
 ## Estado actual (2026-10-07)
 
-- `HEAD` está en **`37c39c1`** (commit: docs + comentarios educativos en todo el código).
+- `HEAD` está en **`0279e3d`** (commit: correcciones P0 — focus visible, teléfonos, comentarios JSX).
 - Fork subido a: **https://github.com/avtovar/Busqueda_medicina_interactiva**
 - El repo original (`brianhcaro/Busqueda_medicina`) sigue en `70e813c`.
 - `DOCUMENTACION.md` creado con estructura, comandos, conceptos clave, árbol de dependencias, API, paleta.
-- Comentarios estilo `// ↑` añadidos en **todos** los archivos fuente (`src/`, `scripts/`, tests).
+- Comentarios estilo `// ↑` **eliminados del código fuente** (se renderizaban en JSX).
 - `.gitignore` actualizado con `no_subir/` y patrones de secretos.
+- Regla `react/jsx-no-comment-textnodes` en `.oxlintrc.json` para prevenir regresión.
+
+---
+
+## Correcciones P0 aplicadas (2026-10-07)
+
+| ID | Problema | Solución |
+|----|----------|----------|
+| P0-1 | Comentarios `// ↑` visibles en pantalla (18 en inicio, 64 con resultados) | Eliminados con `sed`; regla `react/jsx-no-comment-textnodes: error` en oxlint |
+| P0-2 | Foco de teclado invisible (contraste 1.11:1) | `focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-700` en 12 componentes |
+| P0-3 | 79 enlaces `tel:` rotos (números concatenados) | `extraerTelefonos()` separa por espacios, `/`, ` y `, `;`, `,`; un enlace por número válido |
 
 ---
 
@@ -77,4 +88,4 @@ Si puerto ocupado: cerrar procesos `node` viejos de Vite antes de reintentar.
 ## Documentación generada
 
 - `DOCUMENTACION.md` — firma: *Ali Valentín Tovar Morales*
-- Comentarios educativos en 26 archivos (src/, scripts/, tests/)
+- Comentarios educativos movidos a `DOCUMENTACION.md` (ya no en código fuente)
