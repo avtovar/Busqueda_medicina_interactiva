@@ -3,24 +3,18 @@ import { GrupoCard } from './GrupoCard'
 
 type ResultadosListaProps = {
   resultados: ResultadoGrupo[]
-  // ↑ Array de grupos ya filtrados, clasificados y ordenados
   consulta: string
-  // ↑ Término original (se pasa a GrupoCard para interpolar en explicaciones)
   minimaAlcanzada: boolean
-  // ↑ true si consulta tiene ≥3 letras normalizadas
   onClear: () => void
-  // ↑ Callback para botón "Limpiar búsqueda" en estado vacío
 }
 
 function obtenerPrincipales(resultados: ResultadoGrupo[]) {
-  // ↑ Filtra solo coincidencias de tipo 'principio-activo' o 'comercial'
   return resultados.filter(
     (resultado) => resultado.coincidencia === 'principio-activo' || resultado.coincidencia === 'comercial',
   )
 }
 
 function obtenerRelacionadas(resultados: ResultadoGrupo[]) {
-  // ↑ Filtra solo coincidencias de tipo 'asociacion' o 'relacionado'
   return resultados.filter(
     (resultado) => resultado.coincidencia === 'asociacion' || resultado.coincidencia === 'relacionado',
   )
@@ -33,9 +27,7 @@ export function ResultadosLista({
   onClear,
 }: ResultadosListaProps) {
   if (resultados.length === 0) {
-    // ↑ Sin resultados totales (ni principales ni relacionadas)
     if (!minimaAlcanzada || consulta.trim() === '') return null
-    // ↑ Si no alcanzó mínimo O búsqueda vacía → no muestra nada (App maneja ese caso)
 
     return (
       <div className="flex flex-col items-start gap-3 border-b border-slate-200 py-5 sm:flex-row sm:items-center sm:justify-between dark:border-slate-800" role="status">
@@ -48,7 +40,7 @@ export function ResultadosLista({
           </p>
         </div>
         <button
-          className="min-h-11 shrink-0 rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-sky-300 hover:bg-sky-50 hover:text-sky-800 focus:outline-none focus:ring-4 focus:ring-sky-500/10 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-sky-400 dark:hover:bg-sky-950/40 dark:hover:text-sky-100 dark:focus:ring-sky-500/20"
+          className="min-h-11 shrink-0 rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-sky-300 hover:bg-sky-50 hover:text-sky-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-sky-400 dark:hover:bg-sky-950/40 dark:hover:text-sky-100 dark:focus-visible:outline-sky-300"
           onClick={onClear}
           type="button"
         >
@@ -61,7 +53,6 @@ export function ResultadosLista({
   const principales = obtenerPrincipales(resultados)
 
   if (principales.length === 0) {
-    // ↑ Hay resultados pero TODOS son relacionados (asociaciones/relacionados)
     return (
       <p className="border-b border-slate-200 py-5 text-sm leading-6 text-slate-600 dark:border-slate-800 dark:text-slate-300" role="status">
         No encontramos coincidencias principales. Las coincidencias relacionadas aparecen después del directorio.
@@ -99,10 +90,8 @@ export function ResultadosRelacionadas({
   resultados,
   consulta,
 }: Pick<ResultadosListaProps, 'resultados' | 'consulta'>) {
-  // ↑ Pick extrae solo las props que necesita (resultados + consulta)
   const relacionadas = obtenerRelacionadas(resultados)
   if (relacionadas.length === 0) return null
-  // ↑ Sin relacionadas → no renderiza nada (null)
 
   return (
     <section aria-labelledby="resultados-relacionados" className="mt-9 border-t border-slate-200 pt-6 dark:border-slate-800">

@@ -1,11 +1,8 @@
 import type { OrdenResultados } from '../types/datos'
-// ↑ Tipo union: 'precio-asc' | 'precio-desc' | 'ofertas-desc' | 'nombre'
 
 type OrdenFiltrosProps = {
   value: OrdenResultados
-  // ↑ Valor actual del select (controlado por padre)
   onChange: (value: OrdenResultados) => void
-  // ↑ Callback: padre actualiza su estado orden
 }
 
 export function OrdenFiltros({ value, onChange }: OrdenFiltrosProps) {
@@ -17,14 +14,10 @@ export function OrdenFiltros({ value, onChange }: OrdenFiltrosProps) {
         Ordenar resultados
       </label>
       <select
-        className="h-11 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-medium text-slate-700 outline-none transition focus:border-sky-500 focus:ring-4 focus:ring-sky-500/10 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:focus:border-sky-400 dark:focus:ring-sky-500/20"
-        // ↑ h-11 = 44px touch target; focus:ring = anillo accesible sky-500
+        className="h-11 w-full rounded-xl border border-slate-200 bg-white px-3 text-sm font-medium text-slate-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-700 transition dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:focus-visible:outline-sky-300"
         id="sort-results"
-        // ↑ ID vinculado con label[htmlFor]
         onChange={(event) => onChange(event.target.value as OrdenResultados)}
-        // ↑ Castea a OrdenResultados (TS no infiere el value del select nativo)
         value={value}
-        // ↑ Controlado: React maneja el valor seleccionado
       >
         <option value="precio-asc">Menor precio mínimo de referencia</option>
         <option value="precio-desc">Mayor precio mínimo de referencia</option>

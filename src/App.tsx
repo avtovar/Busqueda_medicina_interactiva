@@ -1,19 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-// ↑ Hooks de React: useState (estado), useEffect (efectos), useMemo (memoización), useCallback (callback estable)
 import { AvisoFuente } from './components/AvisoFuente'
-// ↑ Componente que muestra metadatos de fuentes (CNPM, CABA), vigencia y limitaciones
 import { FarmaciasCercanas } from './components/FarmaciasCercanas'
-// ↑ Directorio de farmacias CABA con filtro, distancia, teléfono y ruta a Google Maps
 import { LocationStatus } from './components/LocationStatus'
-// ↑ Banner de estado de geolocalización (idle/loading/success/error) con botón reintentar
 import { OrdenFiltros } from './components/OrdenFiltros'
-// ↑ Select para ordenar resultados (precio asc/desc, más productos, nombre A-Z)
 import { ResultadosLista, ResultadosRelacionadas } from './components/ResultadosLista'
-// ↑ Renderiza coincidencias principales y relacionadas (separadas) usando GrupoCard
 import { SearchBar } from './components/SearchBar'
-// ↑ Barra de búsqueda con validación de mínimo 3 letras, hint dinámico y botón limpiar
 import { ThemeToggle } from './components/ThemeToggle'
-// ↑ Botón para alternar tema claro/oscuro (persiste en localStorage)
 import type {
   Catalogo,
   Coordenadas,
@@ -23,7 +15,6 @@ import type {
   GeolocationStatus,
   OrdenResultados,
 } from './types/datos'
-// ↑ Tipos TypeScript compartidos: catálogo, farmacias, geo, orden y estado de carga
 import {
   alcanzaElMinimo,
   buscarGrupos,
@@ -33,21 +24,15 @@ import {
   filtrarFarmacias,
   ordenarGrupos,
 } from './utils/busqueda'
-// ↑ Lógica de búsqueda: normalización, índice de marcas, clasificación, ordenamiento y carga de JSON
 import { calculateDistance } from './utils/distance'
-// ↑ Fórmula Haversine para distancia entre coordenadas (lat/lng) en km
 
 function mensajeErrorGeolocalizacion(error: GeolocationPositionError): string {
-  // ↑ Convierte el código de error del navegador en un mensaje legible para el usuario
   switch (error.code) {
     case 1:
-      // ↑ PERMISSION_DENIED: el usuario denegó el permiso
       return 'El permiso de ubicación fue denegado. Podés habilitarlo desde los permisos del navegador.'
     case 2:
-      // ↑ POSITION_UNAVAILABLE: no se pudo determinar la posición (señal mala, etc.)
       return 'No se pudo determinar tu posición. Probá de nuevo en un lugar con mejor señal.'
     case 3:
-      // ↑ TIMEOUT: la solicitud tardó demasiado
       return 'La solicitud de ubicación tardó demasiado. Probá de nuevo.'
     default:
       return 'No se pudo obtener tu ubicación en este momento.'
@@ -57,52 +42,36 @@ function mensajeErrorGeolocalizacion(error: GeolocationPositionError): string {
 function App() {
   // Estado del catálogo y farmacias (datos cargados al inicio)
   const [catalogo, setCatalogo] = useState<Catalogo | null>(null)
-  // ↑ Catálogo completo: meta + array de grupos (composiciones)
   const [farmacias, setFarmacias] = useState<Farmacia[]>([])
-  // ↑ Lista plana de farmacias (sin distancia calculada)
   const [metaFarmacias, setMetaFarmacias] = useState<FarmaciasMeta | null>(null)
-  // ↑ Metadatos del registro: fuente, cobertura, total, aviso
   const [carga, setCarga] = useState<EstadoCarga>('cargando')
-  // ↑ Estado de carga inicial: 'cargando' | 'listo' | 'error'
   const [errorCarga, setErrorCarga] = useState<string | null>(null)
-  // ↑ Mensaje de error si falla la carga de datos
 
   // Estado de la búsqueda
   const [consulta, setConsulta] = useState('')
-  // ↑ Texto que escribe el usuario en la barra de búsqueda
   const [filtroFarmacias, setFiltroFarmacias] = useState('')
-  // ↑ Texto para filtrar el directorio de farmacias (barrio, comuna, nombre)
   const [orden, setOrden] = useState<OrdenResultados>('precio-asc')
-  // ↑ Criterio de ordenamiento de resultados: 'precio-asc' | 'precio-desc' | 'ofertas-desc' | 'nombre'
 
   // Estado de geolocalización
   const [ubicacion, setUbicacion] = useState<Coordenadas | null>(null)
-  // ↑ Coordenadas del usuario (lat/lng) si autorizó la geolocalización
   const [estadoGeo, setEstadoGeo] = useState<GeolocationStatus>('idle')
-  // ↑ Estado de la geolocalización: 'idle' | 'loading' | 'success' | 'error'
   const [mensajeGeo, setMensajeGeo] = useState(
     'Activá tu ubicación para saber qué farmacia te queda más cerca.',
   )
-  // ↑ Mensaje descriptivo según el estado geo (se muestra en LocationStatus)
   const [temaOscuro, setTemaOscuro] = useState<boolean>(() => {
-    // ↑ Inicializador perezoso: lee localStorage o prefers-color-scheme una sola vez al montar
     if (typeof window === 'undefined') return false
-    // ↑ En SSR (no aplica acá, pero buena práctica) window no existe
     const guardado = localStorage.getItem('farmaciacerca-tema')
     if (guardado === 'oscuro') return true
     if (guardado === 'claro') return false
-    // ↑ Si no hay preferencia guardada, respeta la preferencia del sistema
     return window.matchMedia('(prefers-color-scheme: dark)').matches
   })
 
   useEffect(() => {
     const controlador = new AbortController()
-    // ↑ AbortController permite cancelar los fetch si el componente se desmonta antes de terminar
 
     ;(async () => {
       try {
         const [datosCatalogo, datosFarmacias] = await Promise.all([
-          // ↑ Promise.all ejecuta ambas cargas en paralelo (más rápido que secuencial)
           cargarCatalogo(controlador.signal),
           cargarFarmacias(controlador.signal),
         ])
@@ -112,72 +81,51 @@ function App() {
         setCarga('listo')
       } catch (error) {
         if (controlador.signal.aborted) return
-        // ↑ Si se abortó por desmontaje, no seteamos error (evita warning en consola)
         setErrorCarga(error instanceof Error ? error.message : 'Error desconocido')
         setCarga('error')
       }
     })()
 
     return () => controlador.abort()
-    // ↑ Cleanup: al desmontar (o antes de volver a ejecutar), aborta los fetch pendientes
   }, [])
-  // ↑ Array vacío = solo al montar (como componentDidMount en class components)
 
   useEffect(() => {
     if (temaOscuro) {
       document.documentElement.classList.add('dark')
-      // ↑ Agrega clase .dark a <html> → Tailwind aplica variantes dark: en toda la app
     } else {
       document.documentElement.classList.remove('dark')
     }
     localStorage.setItem('farmaciacerca-tema', temaOscuro ? 'oscuro' : 'claro')
-    // ↑ Persiste la preferencia para la próxima visita
   }, [temaOscuro])
-  // ↑ Se ejecuta cada vez que cambia temaOscuro (click en ThemeToggle)
 
   const indice = useMemo(
     () => (catalogo ? construirIndice(catalogo.grupos) : null),
     [catalogo],
   )
-  // ↑ Construye el índice de marcas por grupo (Map) solo cuando cambia el catálogo
-  // ↑ Evita reconstruir el índice en cada render o keystroke de búsqueda
 
   const minimaAlcanzada = alcanzaElMinimo(consulta)
-  // ↑ true si la consulta normalizada tiene ≥3 letras (mínimo de CNPM)
 
   const resultados = useMemo(() => {
     if (!catalogo || !indice || !minimaAlcanzada) return []
-    // ↑ Si no hay catálogo, índice o no alcanza el mínimo → array vacío
     return ordenarGrupos(buscarGrupos(catalogo.grupos, consulta, indice), orden)
-    // ↑ 1) buscarGrupos filtra y clasifica coincidencias
-    // ↑ 2) ordenarGrupos aplica el criterio de orden seleccionado
   }, [catalogo, indice, consulta, orden, minimaAlcanzada])
-  // ↑ Se recalcula solo cuando cambian estas dependencias (no en cada render)
 
   const coincidenciasPrincipales = resultados.filter(
     (resultado) => resultado.coincidencia === 'principio-activo' || resultado.coincidencia === 'comercial',
   ).length
-  // ↑ Cuenta grupos que coinciden por principio activo exacto/prefijo o nombre comercial
   const relacionadas = resultados.length - coincidenciasPrincipales
-  // ↑ El resto son asociaciones o relacionados (coincidencia parcial)
 
   const farmaciasVisibles = useMemo(() => {
     const filtradas = filtrarFarmacias(farmacias, filtroFarmacias)
-    // ↑ Filtra por nombre/barrio/comuna (normalizado, ≥2 letras)
     const conDistancia = filtradas.map((farmacia) => ({
       ...farmacia,
       distanceKm: ubicacion ? calculateDistance(ubicacion, farmacia) : null,
-      // ↑ Si hay ubicación, calcula distancia Haversine; si no, null
     }))
     if (!ubicacion) return conDistancia.sort((a, b) => a.nombre.localeCompare(b.nombre, 'es'))
-    // ↑ Sin ubicación: orden alfabético por nombre (localeCompare español)
     return conDistancia.sort((a, b) => (a.distanceKm ?? 0) - (b.distanceKm ?? 0))
-    // ↑ Con ubicación: orden ascendente por distancia (nulls al final por ?? 0)
   }, [farmacias, filtroFarmacias, ubicacion])
-  // ↑ Se recalcula al cambiar filtro, ubicación o lista base de farmacias
 
   const pedirUbicacion = useCallback(() => {
-    // ↑ useCallback: retorna la misma función mientras no cambien dependencias (array vacío = nunca)
     if (!('geolocation' in navigator)) {
       setEstadoGeo('error')
       setMensajeGeo('Tu navegador no admite la geolocalización.')
@@ -188,7 +136,6 @@ function App() {
     setMensajeGeo('Autorizá el permiso de ubicación en el navegador.')
 
     navigator.geolocation.getCurrentPosition(
-      // ↑ API nativa del navegador: pide permiso y devuelve coords o error
       (position) => {
         setUbicacion({ lat: position.coords.latitude, lng: position.coords.longitude })
         setEstadoGeo('success')
@@ -197,25 +144,20 @@ function App() {
       (error) => {
         setEstadoGeo('error')
         setMensajeGeo(mensajeErrorGeolocalizacion(error))
-        // ↑ Convierte código de error en mensaje legible
       },
       { enableHighAccuracy: false, maximumAge: 300000, timeout: 10000 },
-      // ↑ Opciones: alta precisión no necesaria, cache 5 min, timeout 10 seg
     )
   }, [])
 
   const limpiarBusqueda = useCallback(() => setConsulta(''), [])
-  // ↑ useCallback estable: siempre la misma función, limpia el input de búsqueda
 
   const etiquetaBoton = estadoGeo === 'loading'
     ? 'Obteniendo…'
     : ubicacion
       ? 'Actualizar ubicación'
       : 'Usar mi ubicación'
-  // ↑ Texto dinámico del botón de geolocalización según estado
 
   if (carga === 'cargando') {
-    // ↑ Pantalla de carga inicial mientras se fetchean catálogo y farmacias
     return (
       <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4 dark:bg-slate-950">
         <p className="text-sm font-semibold text-slate-600 dark:text-slate-300" role="status">
@@ -227,7 +169,6 @@ function App() {
   }
 
   if (carga === 'error') {
-    // ↑ Pantalla de error si falló la carga de datos (red, JSON inválido, etc.)
     return (
       <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4 dark:bg-slate-950">
         <div className="max-w-md rounded-2xl border border-rose-200 bg-white p-6 text-center dark:border-rose-900 dark:bg-slate-900">
@@ -271,11 +212,8 @@ function App() {
             <ThemeToggle temaOscuro={temaOscuro} onToggle={() => setTemaOscuro((v) => !v)} />
             {/* ↑ Botón tema: recibe estado actual y callback que invierte (v => !v) */}
             <button
-              // ↑ aria-busy=true mientras loading → screen readers anuncian "cargando"
               aria-busy={estadoGeo === 'loading'}
-              // ↑ Clases Tailwind: min-h-11 (touch target 44px), estados hover/focus/disabled/dark
-              className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 text-xs font-bold text-slate-700 transition hover:border-sky-300 hover:bg-sky-50 hover:text-sky-800 focus:outline-none focus:ring-4 focus:ring-sky-500/10 disabled:cursor-wait disabled:opacity-70 sm:px-4 sm:text-sm dark:border-slate-700 dark:bg-slate-950/60 dark:text-slate-200 dark:hover:border-sky-400 dark:hover:bg-sky-950/40 dark:hover:text-sky-100 dark:focus:ring-sky-500/20"
-              // ↑ Deshabilitado mientras se obtiene ubicación (evita clicks múltiples)
+              className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 text-xs font-bold text-slate-700 transition hover:border-sky-300 hover:bg-sky-50 hover:text-sky-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-700 disabled:cursor-wait disabled:opacity-70 sm:px-4 sm:text-sm dark:border-slate-700 dark:bg-slate-950/60 dark:text-slate-200 dark:hover:border-sky-400 dark:hover:bg-sky-950/40 dark:hover:text-sky-100 dark:focus-visible:outline-sky-300"
               disabled={estadoGeo === 'loading'}
               onClick={pedirUbicacion}
               type="button"
@@ -322,7 +260,6 @@ function App() {
           </p>
         </section>
 
-        // ↑ Solo renderiza sección de resultados si el usuario escribió ≥3 letras
         {minimaAlcanzada && (
           <section aria-labelledby="results-title" className="mt-8">
             <div className="mb-4 flex flex-col gap-3 border-b border-slate-200 pb-4 sm:flex-row sm:items-end sm:justify-between dark:border-slate-800">
@@ -361,17 +298,12 @@ function App() {
                   onClear={limpiarBusqueda}
                   resultados={resultados}
                 />
-                // ↑ Pasa consulta para interpolar en explicaciones de asociaciones/relacionados
               </div>
               {coincidenciasPrincipales > 0 && (
-                // ↑ Aside (directorio) solo si hay coincidencias principales (diseño canvas nodo 02)
                 <aside aria-label="Directorio independiente de farmacias" className="min-w-0 border-t border-slate-200 pt-6 dark:border-slate-800 lg:border-t-0 lg:pt-0">
-                  // ↑ En mobile: border-top + pt-6 (separado). En desktop: sin border, sin pt (al lado)
                   <FarmaciasCercanas
                     compact
-                    // ↑ compact=true → muestra solo 2 farmacias iniciales, botón "Ver más"
                     locationStatus={estadoGeo !== 'idle' ? (
-                      // ↑ LocationStatus inline solo si ya interactuó con geo (no en idle inicial)
                       <LocationStatus
                         message={mensajeGeo}
                         onRetry={pedirUbicacion}
@@ -389,8 +321,6 @@ function App() {
             </div>
 
             {coincidenciasPrincipales === 0 && (
-              // ↑ Si hay resultados pero 0 coincidencias principales (solo relacionadas)
-              // ↑ El directorio va ANTES de las relacionadas, a ancho completo (canvas nodo 03)
               <section aria-label="Directorio de farmacias" className="mt-8 border-t border-slate-200 pt-6 dark:border-slate-800">
                 <LocationStatus
                   message={mensajeGeo}
@@ -412,7 +342,6 @@ function App() {
           </section>
         )}
 
-        // ↑ Si NO alcanza mínimo (0-2 letras): solo directorio de farmacias, sin buscar
         {!minimaAlcanzada && (
           <section aria-label="Directorio de farmacias" className="mt-8 pt-0">
             <LocationStatus
