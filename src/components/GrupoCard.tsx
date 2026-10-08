@@ -58,11 +58,14 @@ export function GrupoCard({ grupo, consulta }: GrupoCardProps) {
           <p className="mt-1 text-sm leading-5 text-slate-600 dark:text-slate-400">
             {grupo.totalProductos.toLocaleString('es-AR')} productos en {grupo.presentaciones.length.toLocaleString('es-AR')} presentaciones
             {/* ↑ Stats: total productos (ofertas) y presentaciones distintas (formato AR) */}
-            {grupo.marcasQueCoinciden.length > 0 && (
-              <> · incluye {grupo.marcasQueCoinciden.slice(0, 2).join(', ')}</>
-            )}
-            {/* ↑ Si coincidió por nombre comercial, muestra hasta 2 marcas que matchearon */}
           </p>
+          {grupo.marcasQueCoinciden.length > 0 && (
+            <p className="mt-1 text-sm font-medium text-indigo-700 dark:text-indigo-300">
+              Marca: {grupo.marcasQueCoinciden.slice(0, 3).join(', ')}
+              {grupo.marcasQueCoinciden.length > 3 && <span> · +{grupo.marcasQueCoinciden.length - 3} más</span>}
+            </p>
+          )}
+          {/* ↑ Si coincidió por nombre comercial, muestra las marcas que matchearon (hasta 3) */}
         </div>
         <div className="shrink-0 text-right">
           {/* ↑ shrink-0: precio nunca se encoje; text-right: alineado a la derecha */}
